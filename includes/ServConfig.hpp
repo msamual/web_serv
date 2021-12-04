@@ -19,7 +19,6 @@ struct t_server{
     size_t                      port;
     bool                        default_server;
     std::vector<std::string>    names;
-    std::string                 dir_error_pages;
     std::map<int, std::string>  error_pages;
     int                         body_size;
     std::vector<Location>       locations;

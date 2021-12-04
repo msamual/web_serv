@@ -14,29 +14,31 @@ std::map<int, std::string>*	OLD_set_error_pages(const std::vector<t_server>& con
 }
 
 void
-set_default_errors(t_server &conf){
-	conf.error_pages[400] = "<html><head>Bad Request</head></html>\n";
+set_default_errors(std::map<int, std::string> &ret){
+	ret[400] = "<html><head>Bad Request</head></html>\n";
+	ret[401] = "<html><head>Unauthorized</head></html>\n";
+	ret[403] = "<html><head>Forbidden</head></html>\n";
+	ret[404] = "<html><head>Not found</head></html>\n";
+	ret[500] = "<html><head>Internal server error</head></html>\n";
+	ret[501] = "<html><head>Not Implemented</head></html>\n";
+	ret[502] = "<html><head>Bad Gateway</head></html>\n";
+	ret[503] = "<html><head>Service Unavaiable</head></html>\n";
+	ret[521] = "<html><head>Web server is down</head></html>\n";
 	return ;
 }
 
 void
-set_custom_errors(t_server &conf){
-	//firsts we need open a dir and parse it for some files
-	//then set error page for every file in dir
-	conf.error_pages[400] = "<html><head>Custom Bad Request</head></html>\n";
-	return ;
-}
-
-void
-set_error_pages(std::vector<t_server>& config)
+set_error_pages(t_server &config, std::vector<std::string> &tokens)
 {
-	for (size_t i = 0; i < config.size(); ++i){
-		if (config.at(i).dir_error_pages == ""){
-			set_default_errors(config.at(i));
-		}
-		else{
-			set_custom_errors(config.at(i));
-		}
+	int	error;
+
+	if (tokens.size() != 3){
+		throw (std::invalid_argument("Error pages are invalid"));
 	}
+	else if (!is_file(tokens.at(2).c_str())){
+		throw (std::invalid_argument("Error pages are not a files"));
+	}
+	error = atoi(tokens.at(1).c_str());
+	config.error_pages[error] = tokens.at(2);
 	return ;
 }

@@ -9,7 +9,7 @@ def_config()
 }
 
 bool
-is_file(char *file)
+is_file(const char *file)
 {
     struct stat path_stat;
 
@@ -43,7 +43,7 @@ std::vector<std::string>
 }
 
 void
-check_address(const std::string& input, t_server &config)
+check_address(std::string& input, t_server &config)
 {
     size_t 		i;
     std::string port;
@@ -73,10 +73,14 @@ check_address(const std::string& input, t_server &config)
 }
 
 int
-make_config(const std::vector<std::string> &tokens, std::vector<t_server> &ret)
+make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
 {
     if (tokens.at(0) == "server"){
         ret.push_back(t_server());
+        set_default_errors(ret.back().error_pages);
+    }
+    else if (tokens.at(0) == "error_page"){
+        set_error_pages(ret.back(), tokens);
     }
     else if (tokens.at(0) == "listen"){
         check_address(tokens.at(1), ret.back());
@@ -88,9 +92,6 @@ make_config(const std::vector<std::string> &tokens, std::vector<t_server> &ret)
         for (size_t i = 1; i < tokens.size(); ++i){
             ret.back().names.push_back(tokens.at(i));
         }
-    }
-    else if (tokens.at(0) == "error_pages"){
-        ret.back().dir_error_pages = tokens.at(1);
     }
     else if (tokens.at(0) == "body_size"){
         ret.back().body_size = std::atoi(tokens.at(1).c_str());
@@ -106,7 +107,7 @@ make_config(const std::vector<std::string> &tokens, std::vector<t_server> &ret)
 }
 
 bool
-make_location(const std::vector<std::string> &tokens, Location &ret)
+make_location(std::vector<std::string> &tokens, Location &ret)
 {
 
     if (tokens.at(0) == "}")
