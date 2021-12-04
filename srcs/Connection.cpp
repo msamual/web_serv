@@ -64,14 +64,17 @@ void 			Connection::send_response()
 
 void 			Connection::check_request()
 {
-	std::stringstream	ss(this->_request);
-	std::string 		method, route, version;
-
-	ss >> method >> route >> version;
-	if (method != "GET" && method != "POST" && method != "DELETE")
+	if (_status & EMPTY)
 	{
-		_response = (*_error_pages)[400];
-		_status = COMPLETE;
-		_close_connection_flag = AFTER_SEND;
+		std::stringstream	ss(_request);
+		std::string			met, rou, ver;
+		ss >> met >> rou >> ver;
+		if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos)
+		{
+			_response = _error_pages->at(400);
+			_status = READY;
+			_close_connection_flag = AFTER_SEND;
+		}
 	}
+
 }

@@ -5,9 +5,12 @@
 #ifndef WEB_SERV_CONNECTION_H
 #define WEB_SERV_CONNECTION_H
 
-#define INCOMPLETE			0
-#define COMPLETE			1
-#define INVALID				2
+#define EMPTY				0
+#define WAITING_HOST		1
+#define INCOMPLETE			2
+#define COMPLETE			3
+#define READY				4
+#define INVALID				5
 
 #define DONT_CLOSE			0
 #define SHOULD_BE_CLOSED	1
