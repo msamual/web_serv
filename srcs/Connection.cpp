@@ -5,7 +5,7 @@
 #include "../includes/Connection.hpp"
 
 Connection::Connection(int fd, std::string host, int port, std::map<int, std::string>* error_pages, std::ostream* log)
-	: _fd(fd), _host(host), _port(port), _status(INCOMPLETE), _error_pages(error_pages),
+	: _fd(fd), _host(host), _port(port), _status(EMPTY), _error_pages(error_pages),
 	_close_connection_flag(DONT_CLOSE), _log(log)
 {
 	struct sockaddr	addr;
@@ -64,17 +64,39 @@ void 			Connection::send_response()
 
 void 			Connection::check_request()
 {
-	if (_status & EMPTY)
+	if (_status == EMPTY)
 	{
 		std::stringstream	ss(_request);
 		std::string			met, rou, ver;
 		ss >> met >> rou >> ver;
 		if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos)
 		{
-			_response = _error_pages->at(400);
+			_response = (*_error_pages)[400];
 			_status = READY;
 			_close_connection_flag = AFTER_SEND;
 		}
+		else
+			_status = WAITING_HOST;
+	}
+	else if (_status == WAITING_HOST)
+	{
+		std::stringstream	ss(_request);
+		std::string 		str;
+
+		ss >> str;
+		if (str != "Host:")
+		{
+			_response = (*_error_pages)[405];
+			_status = READY;
+			_close_connection_flag = AFTER_SEND;
+		}
+		else
+			_status = INCOMPLETE;
+	}
+	else if (_status == INCOMPLETE)
+	{
+		if (_request.find("/r/n/r/n"))
+			_status = COMPLETE;
 	}
 
 }

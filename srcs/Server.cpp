@@ -90,8 +90,10 @@ void 	Server::handle_events(struct kevent* events, int count)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);
-			if (connection.getStatus() == COMPLETE)
+			if (connection.getStatus() == READY)
 				add_to_write_track(fd);
+//			else if (connection.getStatus() == COMPLETE)
+//				handle_request(connection);
 		}
 		if (connection.getCloseConnectionFlag() & SHOULD_BE_CLOSED)
 			_connections->close_connection(fd);
