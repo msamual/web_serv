@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   webserv.hpp                                        :+:      :+:    :+:   */
+/*   Webserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgath <sgath@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/09/12 15:21:02 by sgath            ###   ########.fr       */
+/*   Updated: 2021/12/04 12:36:18 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <algorithm>
+#include <cstdlib>
 #include <signal.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -44,6 +46,7 @@
 #include <exception>
 #include <sys/types.h>
 #include <sys/event.h>
+#include <sys/stat.h>
 
 #include <sys/time.h>
 
@@ -68,7 +71,7 @@ class		NoValidConf : public std::exception
 std::string	parsingConf( std::string path );
 
 //functions
-std::vector<t_server>	parse_config(int argc, char **argv);
+std::vector<t_server>	parse_config(int ac, char **argv);
 
 std::map<int, std::pair<std::string, int> >
 		create_listening_sockets(const std::vector<t_server>& config, std::ostream *log);

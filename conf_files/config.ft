@@ -1,0 +1,18 @@
+server
+{
+    listen                  localhost:8081 default
+    server_names            example.org www.example.org
+    error_pages             /content/errors
+    body_size               1024
+
+    location example.php
+    {
+        accepted_methods    GET POST
+        location            /goods
+        redirection         /var/goods
+        root                /var/
+        dir_listing         true
+        default_file        /var/default.hmtl
+        cgi                 /var/php
+    }
+}

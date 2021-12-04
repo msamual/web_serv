@@ -1,20 +1,27 @@
-//
-// Created by Mitchel Samual on 10/27/21.
-//
+#ifndef _CONFIG_HPP_
+#define _CONFIG_HPP_
 
-#ifndef WEB_SERV_SERVCONFIG_H
-#define WEB_SERV_SERVCONFIG_H
+struct Location{
+    std::string location;
+    std::string accepted_methods;
+    std::string redirection;
+    std::string root;
 
-# include "Webserv.hpp"
+    bool        dir_listing;
+    std::string default_file;
 
-typedef struct				s_server
-{
-	std::vector<std::string>	names;
-	std::string					host;
-	std::string					root;
-	std::map<int, std::string>	error_pages;
-	std::vector<t_location>		locations;
-	size_t						port;
-}							t_server;
+    std::string cgi;
+    std::string upload_dir;
+};
 
-#endif //WEB_SERV_SERVCONFIG_H
+struct t_server{
+    std::string                 host;
+    size_t                      port;
+    bool                        default_server;
+    std::vector<std::string>    names;
+    std::string                 error_pages;
+    int                         body_size;
+    std::vector<Location>       locations;
+};
+
+#endif

@@ -39,8 +39,7 @@ std::map<int, std::pair<std::string, int> >
 	std::set<std::pair<std::string, int> >::iterator	i;
 
 	for (size_t i = 0; i < config.size(); ++i)
-		hostports.insert(std::pair<std::string, int>(config[i].host,
-													 config[i].port));
+		hostports.insert(std::pair<std::string, int>(config[i].host, config[i].port));
 	for (i = hostports.begin(); i != hostports.end(); ++i)
 	{
 		fd = create_socket(i->first, i->second, log);
