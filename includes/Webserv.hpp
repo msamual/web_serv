@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 12:36:18 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/04 14:08:06 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ std::map<int, std::pair<std::string, int> >
 		create_listening_sockets(const std::vector<t_server>& config, std::ostream *log);
 
 int 							puterror(std::string msg, int errno_code);
-std::map<int, std::string>*		set_error_pages(const std::vector<t_server>& config);
+std::map<int, std::string>*		OLD_set_error_pages(const std::vector<t_server>& config);
+void							set_error_pages(std::vector<t_server>& config);
 std::ostream* 					open_log_file(int ac, char **av);
 
 

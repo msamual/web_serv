@@ -2,7 +2,7 @@ server
 {
     listen                  localhost:8081 default
     server_names            example.org www.example.org
-    error_pages             /content/errors
+    error_pages             custom_errors
     body_size               1024
 
     location example.php
