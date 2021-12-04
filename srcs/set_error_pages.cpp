@@ -39,6 +39,11 @@ set_error_pages(t_server &config, std::vector<std::string> &tokens)
 		throw (std::invalid_argument("Error pages are not a files"));
 	}
 	error = atoi(tokens.at(1).c_str());
-	config.error_pages[error] = tokens.at(2);
+
+	std::ifstream			infile(tokens.at(2));
+	std::stringstream 		buffer;
+	buffer << infile.rdbuf();
+	config.error_pages[error] = buffer.str();
+	infile.close();
 	return ;
 }
