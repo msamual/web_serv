@@ -15,6 +15,13 @@ not_space(char i)
     return !isspace(i);
 }
 
+int
+is_valid_host(std::string host){
+    struct in_addr  tmp;
+
+    return inet_aton(host.c_str(), &tmp);
+}
+
 std::vector<std::string>
 *tokenize(std::string line)
 {
@@ -60,6 +67,9 @@ check_address(std::string& input, t_server &config)
         config.host = "127.0.0.1";
     if (port.find_last_not_of("0123456789") != std::string::npos)
         throw std::invalid_argument("Bad port!");
+    if (!is_valid_host(config.host)){
+        throw std::invalid_argument("Bad host!");
+    }
     config.port = std::atoi(port.c_str());
     return ;
 }
@@ -169,9 +179,7 @@ parse_config(int ac, char **argv)
     std::vector<t_server>       ret;
     std::string                 tmp;
     int                         i;
-    std::string                 arg1 = argv[1];
 
-    std::cout << arg1 << std::endl;
     for (i = 1; i <= ac; ++i){
         if (i == ac){
             tmp = "conf_files/.def_config.ft";

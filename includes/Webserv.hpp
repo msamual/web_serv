@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 16:01:53 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/07 16:45:46 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 #include <sys/types.h>
 #include <sys/event.h>
 #include <sys/stat.h>
+#include <arpa/inet.h>
 
 #include <sys/time.h>
 
