@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 14:08:06 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/04 16:01:53 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ std::map<int, std::pair<std::string, int> >
 
 int 							puterror(std::string msg, int errno_code);
 std::map<int, std::string>*		OLD_set_error_pages(const std::vector<t_server>& config);
-void							set_error_pages(std::vector<t_server>& config);
+void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
+void							set_default_errors(std::map<int, std::string> &ret);
 std::ostream* 					open_log_file(int ac, char **av);
-
+bool							is_file(const char *file);
 
 #endif
