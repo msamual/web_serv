@@ -1,0 +1,19 @@
+server
+{
+    DEFAULT
+    listen                  222.000.22.1:8080 default
+    server_names            example.org www.example.org
+    error_page              521 custom_errors/521.html
+    body_size               1024
+
+    location example.php
+    {
+        accepted_methods    GET POST
+        location            /goods
+        redirection         /var/goods
+        root                /var/
+        dir_listing         true
+        default_file        /var/default.hmtl
+        cgi                 /var/php
+    }
+}
