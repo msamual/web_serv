@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hgrampa <hgrampa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 20:20:51 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 16:16:08 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/09 13:04:06 by hgrampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Webserv.hpp"
 
-std::string     parsingConf(char *str)
-{
-    return str;
-}
 
 int		main(int ac, char **av)
 {
