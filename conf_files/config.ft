@@ -3,6 +3,7 @@ server
     listen                  localhost:8081 default
     server_names            example.org www.example.org
     error_page              521 custom_errors/521.html
+    error_page              400 custom_errors/400.html
     body_size               1024
 
     location example.php

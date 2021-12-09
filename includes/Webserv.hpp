@@ -51,12 +51,12 @@
 #include <sys/time.h>
 
 //class
+#include "ServConfig.hpp"
 #include "Connection.hpp"
 #include "Connection_storage.hpp"
 #include "Request.hpp"
 #include "Socket.hpp"
 #include "Location.hpp"
-#include "ServConfig.hpp"
 
 #include "Server.hpp"
 
@@ -82,5 +82,6 @@ void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
 void							set_default_errors(std::map<int, std::string> &ret);
 std::ostream* 					open_log_file(int ac, char **av);
 bool							is_file(const char *file);
+void                            handle_requests(Connection& conn, std::ostream& out);
 
 #endif
