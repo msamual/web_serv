@@ -19,6 +19,7 @@ set_default_errors(std::map<int, std::string> &ret){
 	ret[401] = "<html><head>Unauthorized</head></html>\n";
 	ret[403] = "<html><head>Forbidden</head></html>\n";
 	ret[404] = "<html><head>Not found</head></html>\n";
+    ret[405] = "<html><head>Not allowed</head></html>\n";
 	ret[500] = "<html><head>Internal server error</head></html>\n";
 	ret[501] = "<html><head>Not Implemented</head></html>\n";
 	ret[502] = "<html><head>Bad Gateway</head></html>\n";

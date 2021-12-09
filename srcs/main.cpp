@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 	{
 		config = parse_config(ac, av);
 		log = open_log_file(ac, av);
-		Server	server(config, OLD_set_error_pages(config), log);
+		Server	server(config, log);
 
 		server.start();
 	}

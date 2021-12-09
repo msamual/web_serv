@@ -12,13 +12,13 @@
 
 #include "Server.hpp"
 
-Server::Server(const std::vector<t_server>& config, std::map<int, std::string>* error_pages, std::ostream *log)
+Server::Server(const std::vector<t_server>& config, std::ostream *log)
 	:	_config(config),
 		_fds_size(0),
 		_log(log)
 {
 
-	_connections = new Connection_storage(error_pages, _log);
+	_connections = new Connection_storage(_log, _config);
 	*_log << "server object was created" << std::endl;
 }
 
@@ -90,10 +90,11 @@ void 	Server::handle_events(struct kevent* events, int count)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);
-			if (connection.getStatus() == READY)
-				add_to_write_track(fd);
-//			else if (connection.getStatus() == COMPLETE)
-//				handle_request(connection);
+            if (connection.getStatus() == COMPLETE)
+                handle_requests(connection, *_log);
+            if (connection.getStatus() == READY) {
+                add_to_write_track(fd);
+            }
 		}
 		if (connection.getCloseConnectionFlag() & SHOULD_BE_CLOSED)
 			_connections->close_connection(fd);

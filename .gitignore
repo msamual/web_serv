@@ -39,5 +39,6 @@ log.txt
 
 #vscode
 *.vscode
+*.idea
 
 webserv
