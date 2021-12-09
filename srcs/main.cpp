@@ -12,7 +12,6 @@
 
 #include "Webserv.hpp"
 
-
 int		main(int ac, char **av)
 {
 	std::vector<t_server>	config;
