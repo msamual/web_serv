@@ -55,5 +55,4 @@ public:
 	void 				send_response();
 };
 
-
 #endif //WEB_SERV_CONNECTION_H
