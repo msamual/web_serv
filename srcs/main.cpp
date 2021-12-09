@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 20:20:51 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 16:16:08 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/09 15:19:26 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		main(int ac, char **av)
 	try
 	{
 		config = parse_config(ac, av);
+		cgi(config[0]);
 		log = open_log_file(ac, av);
 		Server	server(config, OLD_set_error_pages(config), log);
 
