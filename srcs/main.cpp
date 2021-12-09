@@ -12,11 +12,6 @@
 
 #include "Webserv.hpp"
 
-std::string     parsingConf(char *str)
-{
-    return str;
-}
-
 int		main(int ac, char **av)
 {
 	std::vector<t_server>	config;

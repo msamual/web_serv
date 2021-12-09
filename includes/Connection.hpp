@@ -50,6 +50,7 @@ public:
 
 	void 				setStatus(int status);
 	void                setResponse(const std::string& res);
+	void 				clear_request();
 
 	void 				read_request(const struct kevent& event);
 	void 				check_request();
