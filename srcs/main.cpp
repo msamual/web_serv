@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 20:20:51 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/09 15:19:26 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/10 16:13:38 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		main(int ac, char **av)
 	try
 	{
 		config = parse_config(ac, av);
-		cgi(config[0]);
+		cgi(config[0], "cgi_bin/script.py");
 		log = open_log_file(ac, av);
 		Server	server(config, OLD_set_error_pages(config), log);
 

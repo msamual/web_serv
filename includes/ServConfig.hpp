@@ -22,6 +22,7 @@ struct t_server{
     std::map<int, std::string>  error_pages;
     int                         body_size;
     std::vector<Location>       locations;
+    bool                        cgi;
 };
 
 #endif

@@ -6,14 +6,14 @@ server
     error_page              521 custom_errors/521.html
     body_size               1024
 
-    location example.php
+    location .py
     {
         accepted_methods    GET POST
         location            /goods
         redirection         /var/goods
         root                /var/
         dir_listing         true
-        default_file        /var/default.hmtl
-        cgi                 /var/php
+        default_file        /Users/tphung/.brew/Cellar/python@3.9/3.9.1_6/bin/python3.9
+        cgi                 true
     }
 }

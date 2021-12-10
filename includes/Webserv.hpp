@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/09 15:19:17 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/10 16:14:06 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
 void							set_default_errors(std::map<int, std::string> &ret);
 std::ostream* 					open_log_file(int ac, char **av);
 bool							is_file(const char *file);
-int								cgi(t_server &server);
+int								cgi(t_server &server, const char *file);
 
 #endif

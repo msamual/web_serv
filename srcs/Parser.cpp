@@ -134,7 +134,9 @@ make_location(std::vector<std::string> &tokens, Location &ret)
         ret.default_file = tokens.at(1);
     }
     else if (tokens.at(0) == "cgi"){
-        ret.cgi = tokens.at(1);
+        if (tokens.at(1) == "true"){
+            ret.cgi = true;
+        }
     }
     else if (tokens.at(0) == "upload_dir"){
         ret.upload_dir = tokens.at(1);
