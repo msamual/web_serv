@@ -1,13 +1,5 @@
 #include "Webserv.hpp"
 
-t_server
-def_config()
-{
-    t_server  ret;
-
-    return ret;
-}
-
 bool
 is_file(const char *file)
 {
@@ -21,6 +13,13 @@ bool
 not_space(char i)
 {
     return !isspace(i);
+}
+
+int
+is_valid_host(std::string host){
+    struct in_addr  tmp;
+
+    return inet_aton(host.c_str(), &tmp);
 }
 
 std::vector<std::string>
@@ -68,6 +67,9 @@ check_address(std::string& input, t_server &config)
         config.host = "127.0.0.1";
     if (port.find_last_not_of("0123456789") != std::string::npos)
         throw std::invalid_argument("Bad port!");
+    if (!is_valid_host(config.host)){
+        throw std::invalid_argument("Bad host!");
+    }
     config.port = std::atoi(port.c_str());
     return ;
 }
@@ -141,13 +143,13 @@ make_location(std::vector<std::string> &tokens, Location &ret)
 }
 
 std::vector<t_server>
-pratt_parser(char *file)
+pratt_parser(std::string &file)
 {
     std::vector<t_server>   ret;// = new std::vector<t_server>;
     std::string             line;
-    std::ifstream           infile(file);
     std::vector<std::string> *tokens;
     bool                    location_flag = false;
+    std::ifstream           infile(file);
 
     while (std::getline(infile, line)){
         tokens = tokenize(line);
@@ -159,7 +161,7 @@ pratt_parser(char *file)
                 location_flag = make_config(*tokens, ret);
             }
         }
-        // prints config content from tokens
+        // print config content from tokens
         // for (size_t i = 0; i < tokens->size(); ++i){
         //     std::cout << tokens->at(i) << ' ';
         // }
@@ -175,18 +177,33 @@ parse_config(int ac, char **argv)
 {
     std::vector<std::string>    tokens;
     std::vector<t_server>       ret;
+    std::string                 tmp;
+    int                         i;
 
-    if (ac == 1){                       //make default config
-        ret.push_back(def_config());
-    }
-    else if (ac == 2 || ac == 3){                  //parse config
-        if (!is_file(argv[1])){
-            throw std::invalid_argument("Bad config file!");
+    for (i = 1; i <= ac; ++i){
+        if (i == ac){
+            tmp = "conf_files/.def_config.ft";
         }
-        ret = pratt_parser(argv[1]);
+        else if (is_file(argv[i])){
+            tmp = argv[i];
+            if (tmp.compare(tmp.size() - 3, 3, ".ft") == 0){
+                break ;
+            }
+        }
     }
-    else{                               //just error
-        throw std::invalid_argument("Wrong arguments!");
-    }
+    ret = pratt_parser(tmp);
+    std::cout << ret[0].host << std::endl;
+    // if (ac == 1){                       //make default config
+    //     ret = pratt_parser("conf/files");
+    // }
+    // if (ac == 2 || ac == 3){                  //parse config
+    //     if (!is_file(argv[1])){
+    //         throw std::invalid_argument("Bad config file!");
+    //     }
+    //     ret = pratt_parser(argv[1]);
+    // }
+    // else{                               //just error
+    //     throw std::invalid_argument("Wrong arguments!");
+    // }
     return ret;
 }
