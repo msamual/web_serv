@@ -54,7 +54,7 @@ bool	Server::start()
 
 void 	Server::loop()
 {
-	struct kevent	events[MAX_EVENT];
+	struct kevent	events[5];
 	int 			events_count;
 
 	while(true)
@@ -85,7 +85,7 @@ void 	Server::handle_events(struct kevent* events, int count)
 			_connections->add_new_connection(it, _kq);
 			continue;
 		}
-		Connection&		connection = (*_connections)[fd];
+		Connection&		connection = (*_connections)[events[i].ident];
 		if (events[i].flags & EVFILT_WRITE)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
