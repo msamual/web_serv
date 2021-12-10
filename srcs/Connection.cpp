@@ -65,6 +65,9 @@ void 			Connection::send_response()
 	ret = send(_fd, _response.data(), _response.size(), 0);
 	if (ret < 0)
 		std::cerr << "send() failed to " << _fd << " fd." << std::endl;
+//	if (ret == 0)
+//		_close_connection_flag = SHOULD_BE_CLOSED;
+	*_log << "send " << ret << " bytes in " << _fd << "fd." << std::endl;
 	_response = "";
 	_status = INCOMPLETE;
 	if (_close_connection_flag & AFTER_SEND)
