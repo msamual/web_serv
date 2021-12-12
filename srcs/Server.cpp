@@ -75,6 +75,7 @@ void 	Server::handle_events(struct kevent* events, int count)
 	for (int i = 0; i < count; ++i)
 	{
 		fd = events[i].ident;
+//		std::cerr << "event flag = " << std::hex << (int)events[i].flags << std::endl;
 
 		*_log << "event on " << fd << " fd" << std::endl;
 		if (events[i].flags & EV_ERROR) {
@@ -86,7 +87,9 @@ void 	Server::handle_events(struct kevent* events, int count)
 			continue;
 		}
 		Connection&		connection = (*_connections)[events[i].ident];
-		if (events[i].flags & EVFILT_WRITE)
+		if (events[i].flags & EV_EOF)
+			_connections->close_connection(events[i].ident);
+		else if (events[i].flags & EVFILT_WRITE)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);

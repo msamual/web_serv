@@ -2,53 +2,61 @@
 // Created by Mitchel Samual on 11/4/21.
 //
 
-#include "Request.hpp"
+#include "../includes/Request.hpp"
 
 Request::Request()
+{}
+
+Request::Request(const std::string &str)
+{
+	std::string		req = str;
+
+	parse_request_string(req);
+	parse_headers(req);
+	parse_body(req);
+}
+
+Request::Request(const Request &other)
+	:	_method(other._method),
+		_uri(other._uri),
+		_version(other._version),
+		_headers(other._headers),
+		_body(other._body),
+		_path(other._path)
 {}
 
 Request::~Request()
 {}
 
-int 	Request::read_line(int fd)
+Request&		Request::operator=(const Request &other)
 {
-	int 		ret = 0;
-	char		buf[BUFFER_SIZE + 1];
-	std::string str;
-
-	while (true)
-	{
-		ret = recv(fd, buf, BUFFER_SIZE, 0);
-		if (ret < 0)
-			throw "recv() failed";
-		if (ret < 0)
-			break ;
-		if (ret == 0)
-			return -1;
-		if (ret > 0)
-		{
-			buf[ret] = 0;
-			str.append(buf, ret);
-		}
-	}
-	std::cout << str << "bytes received" << std::endl;
-	_request_buffer.push_back(str);
-	if (str == "\r\n" || str == "\n")
-		return 1;
-	return 0;
+	_method = other._method;
+	_uri = other._uri;
+	_version = other._version;
+	_headers = other._headers;
+	_body = other._body;
+	_path = other._path;
+	return *this;
 }
 
-void Request::print_request_buffer()
+std::ostream&	operator<<(std::ostream& stream, const Request& req)
 {
-	for (size_t i = 0; i < _request_buffer.size(); ++i)
-		std::cout << "- " << _request_buffer[i] << std::endl;
+	std::map<std::string, std::string>::const_iterator it = req.getHeaders().begin();
+
+	stream << "<REQUEST>" << std::endl;
+	stream << req.getMethod() << ' ' << req.getUri() << ' ' << req.getVersion() << std::endl;
+	stream << "<HEADERS>" << std::endl;
+	for(;it != req.getHeaders().end(); ++it)
+		stream << it->first << ": " << it->second << std::endl;
+	stream << "<BODY>" << std::endl;
+	return stream;
 }
 
-int Request::getMethod() const {
+const std::string& Request::getMethod() const {
 	return _method;
 }
 
-void Request::setMethod(int method) {
+void Request::setMethod(const std::string& method) {
 	_method = method;
 }
 
@@ -60,11 +68,11 @@ void Request::setUri(const std::string& uri) {
 	_uri = uri;
 }
 
-float Request::getVersion() const {
+const std::string& Request::getVersion() const {
 	return _version;
 }
 
-void Request::setVersion(float version) {
+void Request::setVersion(const std::string& version) {
 	_version = version;
 }
 
@@ -83,4 +91,59 @@ const std::string& Request::getBody() const {
 void
 Request::setBody(const std::string& body) {
 	_body = body;
+}
+
+void
+Request::setPath(const std::string &path, const std::string &uri) {
+	_path = path + uri;
+}
+
+const std::string&
+Request::getPath() const { return _path; }
+
+void 	Request::parse_request_string(std::string &req)
+{
+	std::string		first_string = req.substr(0, req.find('\r'));
+	size_t 			i1	= first_string.find_first_of(' ');
+	size_t 			i2	= first_string.find_last_of(' ');
+
+	_method 	= first_string.substr(0, i1);
+	_uri		= first_string.substr(i1 + 1, i2 - i1 - 1);
+	_version	= first_string.substr(i2 + 1, first_string.length());
+
+//	req = req.substr(req.find('\n') + 1, req.length());
+}
+
+void 	Request::parse_headers(std::string &req)
+{
+	std::string 		line;
+	std::istringstream	ss(req);
+	std::string 		key;
+	std::string 		value;
+	size_t 				sep;
+
+	std::getline(ss, line);
+	while(std::getline(ss, line))
+	{
+		if (line == "\r")
+			break ;
+		else
+		{
+			sep = line.find(':');
+			key = line.substr(0, sep);
+			value = line.substr(sep + 2, line.length() - 3 - sep);
+			_headers.insert(std::make_pair(key, value));
+		}
+	}
+}
+
+void 	Request::parse_body(std::string &req)
+{
+	if (_headers.find("Content-length") == _headers.end())
+		_body = "";
+	else
+	{
+		size_t 	i = req.find("\r\n\r\n") + 4;
+		_body = req.substr(i, stoi(_headers["Content-length"]));
+	}
 }

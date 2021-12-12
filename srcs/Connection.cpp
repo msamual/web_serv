@@ -29,9 +29,12 @@ int 				Connection::getStatus() const { return _status; }
 std::string&		Connection::getRequest() { return _request; }
 std::string&		Connection::getResponse() { return _response; }
 int 				Connection::getCloseConnectionFlag() const { return _close_connection_flag; }
+const t_server&		Connection::getConfig() { return _config; }
+//Request&			Connection::getRequestStruct() { return _req_struct; }
 
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
+//void			 	Connection::setRequestStruct(const Request &req) {_req_struct = req; }
 void 				Connection::clear_request() { _request = ""; }
 
 void 				Connection::read_request(const struct kevent& event)
