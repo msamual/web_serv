@@ -83,5 +83,5 @@ cgi(const t_server &server, Request &request)
 		if (waitpid(child_pid, &status, WNOHANG) > 0)
 			break;
 	}
-    return 0;
+    return OldStdOut;
 }

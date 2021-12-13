@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 import os
 
@@ -11,4 +13,3 @@ for i in os.environ.items():
     print(i)
 
 print(body);
-
