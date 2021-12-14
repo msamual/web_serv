@@ -1,6 +1,7 @@
-#include "Webserv.hpp"
+#include "../includes/Webserv.hpp"
 
-std::string status_to_text(int status){
+std::string 
+status_to_text(int status){
     switch (status){
         case 101: return ("101 Switching Protocols");
         case 103: return ("103 Early Hints");
@@ -59,17 +60,26 @@ std::string status_to_text(int status){
     return "ERROR";
 }
 
-std::string http_response(int status, Connection &connection){
+void
+http_response(int status, Connection &connection){
     std::string ret = "HTTP/1.1 ";
     std::string tmp;
 
     tmp = status_to_text(status);
     if (tmp == "ERROR"){
-        ret += status_to_text(500) + "\n";
+        ret += status_to_text(500) + "\r\n";
     }
     else{
-        ret += tmp + "\n";
+        ret += tmp + "\r\n";
     }
-    
-    return ret;
+    ret += "Host: " + connection.getHost() + ":" + itos(connection.getPort());
+    ret += "Content-type: text/html\r\n";
+    tmp = connection.get_error(status);
+    ret += "Content-length: " + itos(tmp.size()) + "\r\n\r\n";
+    ret += tmp + "\r\n\r\n";
+
+    connection.setStatus(READY);
+    connection.setCloseConnectionFlag(AFTER_SEND);
+    // std::cout << ret;
+    return ;
 }

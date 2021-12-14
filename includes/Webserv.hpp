@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 16:01:53 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/14 12:09:44 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <stdlib.h>
 #include <sys/poll.h>
 #include <sys/ioctl.h>
 #include <exception>
@@ -73,5 +74,7 @@ bool							is_file(const char *file);
 void                            handle_requests(Connection& conn, std::ostream& out);
 int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);
+std::string						status_to_text(int status);
+std::string						itos(int num);
 
 #endif
