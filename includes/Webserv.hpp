@@ -24,6 +24,7 @@
 
 # define RESET "\033[34m"
 
+
 #include <iostream>
 #include <unistd.h>
 #include <string>
@@ -54,6 +55,7 @@
 #include "ServConfig.hpp"
 #include "Connection.hpp"
 #include "Connection_storage.hpp"
+#include "Request.hpp"
 #include "Socket.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
@@ -74,5 +76,7 @@ int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);
 const Request&				 	parse_request(Connection& connection);
 void							make_response_get(int status, std::istream& file, Connection& conn, const Request& request);
+std::string						status_to_text(int status);
+std::string						itos(int num);
 
 #endif

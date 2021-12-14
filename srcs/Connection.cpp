@@ -35,6 +35,13 @@ const t_server&		Connection::getConfig() { return _config; }
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
 //void			 	Connection::setRequestStruct(const Request &req) {_req_struct = req; }
+std::string			Connection::get_error(int error){
+	std::map<int, std::string>::const_iterator it = _config.error_pages.find(error);
+	if (it != _config.error_pages.end())
+		return it->second;
+	return "<html><head>" + status_to_text(error) + "</head></html>\n";
+}
+void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
 void 				Connection::clear_request() { _request = ""; }
 
 void 				Connection::read_request(const struct kevent& event)
