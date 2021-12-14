@@ -36,24 +36,6 @@ bool 	is_directory(std::string file_path)
 	return false;
 }
 
-void 	handle_dir(std::ostream& out, Request& request, const Location& location, Connection& conn)
-{
-	out << "fd " << conn.getFd() << "." << std::endl;
-	out << "location [" << location.location << "]" << std::endl;
-	out << "path [" << request.getPath() << "]" << std::endl;
-
-	std::string			index_name = request.getPath() + "index.html";
-	if (is_file(index_name.data()))
-	{
-		std::ifstream 	file(index_name);
-		if (file.good())
-		{
-			request.setPath(request.getPath(), "index.html");
-			make_response_get(200, file, conn, request);
-		}
-	}
-}
-
 void 	handle_file(std::ostream& out, Request& request, const Location& location, Connection& conn)
 {
 	out << "fd " << conn.getFd() << "." << std::endl;
@@ -69,6 +51,26 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 			request.setPath(request.getPath(), "index.html");
 			make_response_get(200, file, conn, request);
 		}
+	}
+}
+
+void 	handle_dir(std::ostream& out, Request& request, const Location& location, Connection& conn)
+{
+	out << "fd " << conn.getFd() << "." << std::endl;
+	out << "location [" << location.location << "]" << std::endl;
+	out << "path [" << request.getPath() << "]" << std::endl;
+
+	std::string			index_name = request.getPath() + "/index.html";
+	if (is_file(index_name.data()))
+	{
+		request.setPath(request.getPath(), "/index.html");
+		handle_file(out, request, location, conn);
+	}
+	else if (location.auto_index){
+		dir_listing_response(request.getPath(), conn);
+	}
+	else{
+		http_response(404, conn);
 	}
 }
 

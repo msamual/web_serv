@@ -10,7 +10,7 @@ server
     {
         accepted_methods    GET POST
         root                /Users/msamual/Documents/yarik/yaroslav
-        dir_listing         true
+        auto_index         true
         default_file        index.hmtl
     }
 
@@ -18,7 +18,7 @@ server
         {
             accepted_methods    GET POST
             root                /Users/msamual/Documents/yarik
-            dir_listing         true
+            auto_index         true
             default_file        index.hmtl
         }
 }
@@ -33,7 +33,8 @@ server
 
     location /
     {
-        root                /Users/msamual/Documents/site
+        root                /Users/tphung/Documents/
+        auto_index          true
     }
 
     location .php
@@ -42,7 +43,7 @@ server
         location            /goods
         redirection         /var/goods
         root                /var/
-        dir_listing         true
+        auto_index         true
         default_file        /var/default.hmtl
         cgi                 /var/php
     }

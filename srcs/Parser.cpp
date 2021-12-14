@@ -125,9 +125,9 @@ make_location(std::vector<std::string> &tokens, Location &ret)
     else if (tokens.at(0) == "root"){
         ret.root = tokens.at(1);
     }
-    else if (tokens.at(0) == "dir_listing"){
+    else if (tokens.at(0) == "auto_index"){
         if (tokens.at(1) == "true"){
-            ret.dir_listing = true;
+            ret.auto_index = true;
         }
     }
     else if (tokens.at(0) == "default_file"){
