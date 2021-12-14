@@ -32,6 +32,13 @@ int 				Connection::getCloseConnectionFlag() const { return _close_connection_fl
 
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
+std::string			Connection::get_error(int error){
+	std::map<int, std::string>::const_iterator it = _config.error_pages.find(error);
+	if (it != _config.error_pages.end())
+		return it->second;
+	return "<html><head>" + status_to_text(error) + "</head></html>\n";
+}
+void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
 void 				Connection::clear_request() { _request = ""; }
 
 void 				Connection::read_request(const struct kevent& event)
@@ -111,3 +118,4 @@ void 			Connection::check_request()
 		_status = is_complete_request(_request);
 	}
 }
+
