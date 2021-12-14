@@ -98,8 +98,12 @@ Request::setPath(const std::string &path, const std::string &uri) {
 	std::string p, u;
 	if (path.back() == '/')
 		p = path.substr(0, path.length() - 1);
-	if (uri.back() == '/')
-		u = uri.substr(0, path.length() - 1);
+	else
+		p = path;
+	if (uri.back() == '/' && uri.length() > 1)
+		u = uri.substr(0, uri.length() - 1);
+	else
+		u = uri;
 	_path = p + u;
 }
 

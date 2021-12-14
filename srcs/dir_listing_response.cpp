@@ -16,7 +16,7 @@ std::string html_from_dir(const std::string &path, std::string host, std::string
 	for (example = readdir(dir); example != NULL; example = readdir(dir)){
 		if (!example)
 			break ;
-        ret += "<p><a href=\"http://" + host + ":" + port + "/" + example->d_name + "\">" + example->d_name +  "</a></p>";
+        ret += "<p><a href=\"http://" + host + ":" + port + "/" + path + "/" + example->d_name + "\">" + example->d_name +  "</a></p>";
 	}
     ret += "</body></html>";
     closedir(dir);

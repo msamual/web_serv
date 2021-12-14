@@ -9,7 +9,7 @@ server
     location /
     {
         accepted_methods    GET POST
-        root                /Users/msamual/Documents/yarik/yaroslav
+        root                /Users/msamual/Documents/yarik/
         auto_index         true
         default_file        index.hmtl
     }
@@ -33,7 +33,7 @@ server
 
     location /
     {
-        root                /Users/tphung/Documents/
+        root                /Users/msamual/Documents/site
         auto_index          true
     }
 
