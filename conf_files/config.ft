@@ -9,15 +9,15 @@ server
     location /
     {
         accepted_methods    GET POST
-        root                /Users/msamual/Documents/yarik/
-        auto_index         true
+        root                /Users/tphung/Documents/
+        auto_index          true
         default_file        index.hmtl
     }
 
         location /yaroslav
         {
             accepted_methods    GET POST
-            root                /Users/msamual/Documents/yarik
+            root                /Users/tphung/Documents/CPP
             auto_index         true
             default_file        index.hmtl
         }

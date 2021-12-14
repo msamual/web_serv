@@ -1,10 +1,11 @@
 #include "../includes/Webserv.hpp"
 
-std::string html_from_dir(const std::string &path, std::string host, std::string port)
+std::string html_from_dir(const std::string &path, const std::string &root, std::string host, std::string port)
 {
 	DIR				*dir;
 	struct dirent	*example = NULL;
     std::string     ret;
+    std::string     tmp_root;
 
     ret = "<html><head><title>" + path + "/" + "</title></head><body>";
 
@@ -16,7 +17,20 @@ std::string html_from_dir(const std::string &path, std::string host, std::string
 	for (example = readdir(dir); example != NULL; example = readdir(dir)){
 		if (!example)
 			break ;
-        ret += "<p><a href=\"http://" + host + ":" + port + "/" + path + "/" + example->d_name + "\">" + example->d_name +  "</a></p>";
+        if (std::string(example->d_name) == "."){
+            ret += "<p><a href=\"http://" + host + ":" + port + root + "\">" + example->d_name +  "</a></p>";
+        }
+        else if (std::string(example->d_name) == ".."){
+            if (root == "/"){
+                ret += "<p><a href=\"http://" + host + ":" + port + root + "\">" + example->d_name +  "</a></p>";
+            }
+            else{
+                tmp_root = root.substr(0, root.find_last_of('/'));
+                ret += "<p><a href=\"http://" + host + ":" + port + tmp_root + "\">" + example->d_name +  "</a></p>";
+            }
+        }
+        else
+            ret += "<p><a href=\"http://" + host + ":" + port + root + "/" + example->d_name + "\">" + example->d_name +  "</a></p>";
 	}
     ret += "</body></html>";
     closedir(dir);
@@ -24,7 +38,7 @@ std::string html_from_dir(const std::string &path, std::string host, std::string
 }
 
 void
-dir_listing_response(const std::string &path, Connection &connection){
+dir_listing_response(const std::string &path, const std::string &root, Connection &connection){
     std::string ret = "HTTP/1.1 ";
     std::string tmp;
 
@@ -33,7 +47,7 @@ dir_listing_response(const std::string &path, Connection &connection){
     ret += "Host: " + connection.getHost() + ":" + itos(connection.getPort());
     ret += "Content-type: text/html\r\n";
 
-    tmp = html_from_dir(path, connection.getHost(), itos(connection.getPort()));
+    tmp = html_from_dir(path, root, connection.getHost(), itos(connection.getPort()));
     if (tmp == ""){
         http_response(403, connection);
         return ;

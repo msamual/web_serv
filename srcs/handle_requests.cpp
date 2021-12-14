@@ -41,6 +41,7 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 	out << "fd " << conn.getFd() << "." << std::endl;
 	out << "location [" << location.location << "]" << std::endl;
 	out << "path [" << request.getPath() << "]" << std::endl;
+	out << "URI [" << request.getUri() << "]" << std::endl;
 
 	std::string			index_name = request.getPath();
 	if (is_file(index_name.data()))
@@ -59,6 +60,7 @@ void 	handle_dir(std::ostream& out, Request& request, const Location& location, 
 	out << "fd " << conn.getFd() << "." << std::endl;
 	out << "location [" << location.location << "]" << std::endl;
 	out << "path [" << request.getPath() << "]" << std::endl;
+	out << "URI [" << request.getUri() << "]" << std::endl;
 
 	std::string			index_name = request.getPath() + "/index.html";
 	if (is_file(index_name.data()))
@@ -67,7 +69,7 @@ void 	handle_dir(std::ostream& out, Request& request, const Location& location, 
 		handle_file(out, request, location, conn);
 	}
 	else if (location.auto_index){
-		dir_listing_response(request.getPath(), conn);
+		dir_listing_response(request.getPath(), request.getUri(), conn);
 	}
 	else{
 		http_response(404, conn);
