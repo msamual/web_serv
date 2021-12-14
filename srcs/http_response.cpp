@@ -78,8 +78,8 @@ http_response(int status, Connection &connection){
     ret += "Content-length: " + itos(tmp.size()) + "\r\n\r\n";
     ret += tmp + "\r\n\r\n";
 
+	connection.setResponse(ret);
     connection.setStatus(READY);
     connection.setCloseConnectionFlag(AFTER_SEND);
-    // std::cout << ret;
     return ;
 }

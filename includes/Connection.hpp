@@ -47,9 +47,12 @@ public:
 	int 				getCloseConnectionFlag() const;
 	std::string& 		getRequest();
 	std::string&		getResponse();
+	const t_server&	getConfig();
+//	Request&			getRequestStruct();
 
 	void 				setStatus(int status);
 	void                setResponse(const std::string& res);
+//	void 				setRequestStruct(const Request& req);
 	void				setCloseConnectionFlag(int flag);
 	void 				clear_request();
 

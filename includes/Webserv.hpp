@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/14 12:50:26 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/04 16:01:53 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 #include <sys/time.h>
 
 //class
+#include "Request.hpp"
 #include "ServConfig.hpp"
 #include "Connection.hpp"
 #include "Connection_storage.hpp"
@@ -60,10 +61,10 @@
 #include "Server.hpp"
 
 //functions
-std::vector<t_server>	parse_config(int ac, char **argv);
+std::vector<t_server>			parse_config(int ac, char **argv);
 
 std::map<int, std::pair<std::string, int> >
-		create_listening_sockets(const std::vector<t_server>& config, std::ostream *log);
+								create_listening_sockets(const std::vector<t_server>& config, std::ostream *log);
 
 int 							puterror(std::string msg, int errno_code);
 void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
@@ -73,6 +74,9 @@ bool							is_file(const char *file);
 void                            handle_requests(Connection& conn, std::ostream& out);
 int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);
+const Request&				 	parse_request(Connection& connection);
+void							make_response_get(int status, std::istream& file, Connection& conn, const Request& request);
+void 							http_response(int status, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
 

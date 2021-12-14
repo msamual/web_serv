@@ -29,15 +29,17 @@ int 				Connection::getStatus() const { return _status; }
 std::string&		Connection::getRequest() { return _request; }
 std::string&		Connection::getResponse() { return _response; }
 int 				Connection::getCloseConnectionFlag() const { return _close_connection_flag; }
-
-void 				Connection::setStatus(int status) { _status = status; }
-void                Connection::setResponse(const std::string &res) { _response = res; }
-std::string			Connection::get_error(int error){
+const t_server&		Connection::getConfig() { return _config; }
+std::string			Connection::get_error(int error)
+{
 	std::map<int, std::string>::const_iterator it = _config.error_pages.find(error);
 	if (it != _config.error_pages.end())
 		return it->second;
 	return "<html><head>" + status_to_text(error) + "</head></html>\n";
 }
+
+void 				Connection::setStatus(int status) { _status = status; }
+void                Connection::setResponse(const std::string &res) { _response = res; }
 void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
 void 				Connection::clear_request() { _request = ""; }
 
@@ -96,26 +98,19 @@ void 			Connection::check_request()
 		if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos
             || !rou.length() || rou[0] != '/')
 		{
-			_response = _config.error_pages.at(400);
-			_status = READY;
-			_close_connection_flag = AFTER_SEND;
+			http_response(400, *this);
             return ;
 		}
         if (ver != "HTTP/1.1")
         {
-            _response = _config.error_pages.at(405);
-            _status = READY;
-            _close_connection_flag = AFTER_SEND;
+			http_response(405, *this);
             return ;
         }
         if (find_new_line(_request) > 1 && (host != "Host:" || value.length() == 0))
         {
-			_response = _config.error_pages.at(400);
-			_status = READY;
-			_close_connection_flag = AFTER_SEND;
+			http_response(400, *this);
 			return;
         }
 		_status = is_complete_request(_request);
 	}
 }
-
