@@ -25,7 +25,7 @@ void	make_response_get(int status, std::istream& file, Connection& conn, const R
 	response += "Content-type: " + content_type + "\r\n";
 	response += "Content-length: " + std::to_string(content.length() + 1) + "\r\n\r\n";
 	response += content + "\r\n\r\n";
-	response += (char)EOF;
+//	response += (char)EOF;
 
 	conn.setResponse(response);
 }
