@@ -13,7 +13,7 @@ std::string 	get_status_msg(int n)
 
 void	make_response_get(int status, std::istream& file, Connection& conn, const Request& request)
 {
-	std::string		response("HTTP/1.1 " + std::to_string(status) + " " + get_status_msg(status) + "\r\n");
+	std::string		response("HTTP/1.1 " + status_to_text(status) + "\r\n");
 	std::string 	content;
 	std::string 	content_type = "text/html";
 
@@ -21,11 +21,11 @@ void	make_response_get(int status, std::istream& file, Connection& conn, const R
 	if (request.getHeaders().find("Accept") != request.getHeaders().end())
 		content_type = request.getHeaders().at("Accept").substr(0, request.getHeaders().at("Accept").find(','));
 
-	response += "Host: " + conn.getHost() + ":" + std::to_string(conn.getPort()) + "\r\n";
+	response += "Host: " + conn.getHost() + ":" + itos(conn.getPort()) + "\r\n";
 	response += "Content-type: " + content_type + "\r\n";
-	response += "Content-length: " + std::to_string(content.length() + 1) + "\r\n\r\n";
+	response += "Content-length: " + itos(content.length() + 1) + "\r\n\r\n";
 	response += content + "\r\n\r\n";
-//	response += (char)EOF;
+//	res1ponse += (char)EOF;
 
 	conn.setResponse(response);
 }

@@ -49,8 +49,8 @@ int 	is_complete_request(const std::string& request)
 	return INCOMPLETE;
 }
 
-std::string
-itos(int num){
+std::string		itos(int num)
+{
 	std::stringstream	ss;
 
 	ss << num;

@@ -9,13 +9,18 @@ server
     location /
     {
         accepted_methods    GET POST
-        location            /goods
-        redirection         /var/goods
-        root                /var/
+        root                /Users/msamual/Documents/yarik/yaroslav
         dir_listing         true
-        default_file        /var/default.hmtl
-        cgi                 /var/php
+        default_file        index.hmtl
     }
+
+        location /yaroslav
+        {
+            accepted_methods    GET POST
+            root                /Users/msamual/Documents/yarik
+            dir_listing         true
+            default_file        index.hmtl
+        }
 }
 
 server
@@ -29,11 +34,6 @@ server
     location /
     {
         root                /Users/msamual/Documents/site
-    }
-
-    location /yaroslav
-    {
-        root                /Users/msamual/Documents/yarik
     }
 
     location .php

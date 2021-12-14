@@ -76,6 +76,7 @@ int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);
 const Request&				 	parse_request(Connection& connection);
 void							make_response_get(int status, std::istream& file, Connection& conn, const Request& request);
+void 							http_response(int status, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
 

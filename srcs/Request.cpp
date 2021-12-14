@@ -95,7 +95,12 @@ Request::setBody(const std::string& body) {
 
 void
 Request::setPath(const std::string &path, const std::string &uri) {
-	_path = path + uri;
+	std::string p, u;
+	if (path.back() == '/')
+		p = path.substr(0, path.length() - 1);
+	if (uri.back() == '/')
+		u = uri.substr(0, path.length() - 1);
+	_path = p + u;
 }
 
 const std::string&
