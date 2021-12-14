@@ -4,6 +4,13 @@
 
 #include "../includes/Webserv.hpp"
 
+bool 	is_address(const std::string& str)
+{
+	if (str.find("http://") == std::string::npos && str[0] != '/')
+		return false;
+	return true;
+}
+
 int     find_new_line(const std::string& str)
 {
     int res = 0;

@@ -69,7 +69,11 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 			request.setPath(request.getPath(), "index.html");
 			make_response_get(200, file, conn, request);
 		}
+		else
+			http_response(403, conn);
 	}
+	else
+		http_response(404, conn);
 }
 
 void	handle_GET(std::ostream& out, Request& request, const Location& location, Connection& conn)
@@ -87,7 +91,7 @@ void    handle_requests(Connection& conn, std::ostream& out)
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 
 	request.setPath(location.root, request.getUri());
-	if (request.getMethod() == "GET")
+	if (request.getMethod() == "GET" && location.accepted_methods.find("GET") != std::string::npos);
 		handle_GET(out, request, location, conn);
 	conn.clear_request();
     conn.setStatus(READY);
