@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/14 12:09:44 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/14 12:50:26 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
-#include <stdlib.h>
 #include <sys/poll.h>
 #include <sys/ioctl.h>
 #include <exception>
