@@ -79,7 +79,7 @@ make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
 {
     if (tokens.at(0) == "server"){
         ret.push_back(t_server());
-        set_default_errors(ret.back().error_pages);
+        // set_default_errors(ret.back().error_pages);
     }
     else if (tokens.at(0) == "error_page"){
         set_error_pages(ret.back(), tokens);
@@ -105,6 +105,12 @@ make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
         }
         return 1;
     }
+    else if (tokens.at(0) == "}"){
+        if (ret.back().locations.size() == 0){
+            ret.back().locations.push_back(Location());
+            ret.back().locations.back().location = "/";
+        }
+    }
     return 0;
 }
 
@@ -112,9 +118,13 @@ bool
 make_location(std::vector<std::string> &tokens, Location &ret)
 {
 
-    if (tokens.at(0) == "}")
+    if (tokens.at(0) == "}"){
+        if (ret.location == "")
+            throw std::invalid_argument("incorrect location");
         return false;
+    }
     else if (tokens.at(0) == "accepted_methods"){
+        ret.accepted_methods = "";
         for (size_t i = 1; i < tokens.size(); ++i){
             ret.accepted_methods += tokens.at(i) + " ";
         }
@@ -161,11 +171,6 @@ pratt_parser(std::string &file)
                 location_flag = make_config(*tokens, ret);
             }
         }
-        // print config content from tokens
-        // for (size_t i = 0; i < tokens->size(); ++i){
-        //     std::cout << tokens->at(i) << ' ';
-        // }
-        // std::cout << std::endl;
         delete tokens;
     }
     infile.close();
@@ -192,18 +197,6 @@ parse_config(int ac, char **argv)
         }
     }
     ret = pratt_parser(tmp);
-    std::cout << ret[0].host << std::endl;
-    // if (ac == 1){                       //make default config
-    //     ret = pratt_parser("conf/files");
-    // }
-    // if (ac == 2 || ac == 3){                  //parse config
-    //     if (!is_file(argv[1])){
-    //         throw std::invalid_argument("Bad config file!");
-    //     }
-    //     ret = pratt_parser(argv[1]);
-    // }
-    // else{                               //just error
-    //     throw std::invalid_argument("Wrong arguments!");
-    // }
+    // std::cout << ret[0].host << std::endl;
     return ret;
 }

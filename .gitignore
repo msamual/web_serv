@@ -3,6 +3,7 @@ objs*
 *.xml
 webserv
 log.txt
+*.ft
 =======
 # Prerequisites
 *.d
