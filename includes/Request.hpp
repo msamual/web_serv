@@ -17,6 +17,7 @@ private:
 	std::map<std::string, std::string>	_headers;
 	std::string 						_body;
 	std::string							_path;
+	std::string 						_params;
 
 public:
 	Request();
@@ -33,6 +34,7 @@ public:
 	const std::map<std::string, std::string>&	getHeaders() const;
 	const std::string&							getBody() const;
 	const std::string&							getPath() const;
+	const std::string&							getParams() const;
 
 	void 										setMethod(const std::string& method);
 	void 										setVersion(const std::string& version);

@@ -80,5 +80,6 @@ void 							http_response(int status, Connection &connection);
 void							dir_listing_response(const std::string &path, const std::string& root, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
+bool 							is_address(const std::string& str);
 
 #endif
