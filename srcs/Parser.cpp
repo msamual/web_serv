@@ -103,6 +103,8 @@ make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
         if (tokens.size() > 1){
             ret.back().locations.back().location = tokens.at(1);
         }
+        else
+            throw std::invalid_argument("incorrect location");
         return 1;
     }
     else if (tokens.at(0) == "}"){
@@ -119,8 +121,6 @@ make_location(std::vector<std::string> &tokens, Location &ret)
 {
 
     if (tokens.at(0) == "}"){
-        if (ret.location == "")
-            throw std::invalid_argument("incorrect location");
         return false;
     }
     else if (tokens.at(0) == "accepted_methods"){
