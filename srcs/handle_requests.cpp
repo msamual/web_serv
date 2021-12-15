@@ -64,10 +64,10 @@ void 	handle_dir(std::ostream& out, Request& request, const Location& location, 
 	out << "path [" << request.getPath() << "]" << std::endl;
 	out << "URI [" << request.getUri() << "]" << std::endl;
 
-	std::string			index_name = request.getPath() + "/index.html";
+	std::string			index_name = request.getPath() + location.default_file;
 	if (is_file(index_name.data()))
 	{
-		request.setPath(request.getPath(), "/index.html");
+		request.setPath(request.getPath(), location.default_file);
 		handle_file(out, request, location, conn);
 	}
 	else if (location.auto_index){

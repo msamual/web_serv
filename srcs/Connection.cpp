@@ -50,6 +50,11 @@ void 				Connection::read_request(const struct kevent& event)
 
 	*_log << "read from " << _fd << " fd." << std::endl;
 	*_log << "size = " << size << std::endl;
+	if (size < _config.body_size)
+	{
+		http_response(413, *this);
+		return ;
+	}
 	ret = recv(_fd, buf, size, 0);
 	*_log << "read = " << ret << std::endl;
 	if (ret == -1)
