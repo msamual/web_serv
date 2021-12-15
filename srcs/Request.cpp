@@ -124,7 +124,8 @@ void 	Request::parse_request_string(std::string &req)
 	_uri		= first_string.substr(i1 + 1, i2 - i1 - 1);
 	_version	= first_string.substr(i2 + 1, first_string.length());
 
-	_params = _uri.substr(_uri.find('?'), std::string::npos);
+	if (_uri.find('?') != std::string::npos)
+		_params = _uri.substr(_uri.find('?') + 1, std::string::npos);
 	_uri = _uri.substr(0, _uri.find('?'));
 //	req = req.substr(req.find('\n') + 1, req.length());
 }
