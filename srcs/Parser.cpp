@@ -100,11 +100,12 @@ make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
     }
     else if (tokens.at(0) == "location"){
         ret.back().locations.push_back(Location());
-        if (tokens.size() > 1){
+        if (tokens.size() > 1 && tokens.at(1) != ""){
             ret.back().locations.back().location = tokens.at(1);
         }
-        else
+        else{
             throw std::invalid_argument("incorrect location");
+        }
         return 1;
     }
     else if (tokens.at(0) == "}"){
