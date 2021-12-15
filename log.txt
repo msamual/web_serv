@@ -1,17 +1,20 @@
-server object was created
-creating listening socket on 127.0.0.1:8080
-creating listening socket on 127.0.0.1:8081
-add 5 fd to track
-add 6 fd to track
-waiting...
-event on 5 fd
-add 7 fd to track
-waiting...
-event on 7 fd
-read from 7 fd.
-size = 12
-read = 12
-waiting...
-event on 7 fd
-close connection on 7 fd.
-waiting...
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1
+event flag = 1

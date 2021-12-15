@@ -32,14 +32,13 @@ private:
 	size_t 										_fds_size;
 	listen_map									_listening_sockets;
 	Connection_storage							*_connections;
-	std::map<int, std::string>					*_error_pages;
 	std::ostream 								*_log;
 
 	Server();
 
 public:
 
-	Server(const std::vector<t_server>& config, std::map<int, std::string>* error_pages, std::ostream* log);
+	Server(const std::vector<t_server>& config, std::ostream* log);
 	Server(const Server &v);
 	~Server();
 

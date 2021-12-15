@@ -4,26 +4,18 @@
 
 #include "Webserv.hpp"
 
-std::map<int, std::string>*	OLD_set_error_pages(const std::vector<t_server>& config)
-{
-	std::map<int, std::string>	*error_pages = new std::map<int, std::string>();
-
-	if (config.size())
-		(*error_pages)[400] = "<html><head>Bad Request</head></html>\n";
-	return error_pages;
-}
-
 void
 set_default_errors(std::map<int, std::string> &ret){
-	ret[400] = "<html><head>Bad Request</head></html>\n";
-	ret[401] = "<html><head>Unauthorized</head></html>\n";
-	ret[403] = "<html><head>Forbidden</head></html>\n";
-	ret[404] = "<html><head>Not found</head></html>\n";
-	ret[500] = "<html><head>Internal server error</head></html>\n";
-	ret[501] = "<html><head>Not Implemented</head></html>\n";
-	ret[502] = "<html><head>Bad Gateway</head></html>\n";
-	ret[503] = "<html><head>Service Unavaiable</head></html>\n";
-	ret[521] = "<html><head>Web server is down</head></html>\n";
+	ret[400] = "<html><head>Bad Request</head></html>";
+	ret[401] = "<html><head>Unauthorized</head></html>";
+	ret[403] = "<html><head>Forbidden</head></html>";
+	ret[404] = "<html><head>Not found</head></html>";
+    ret[405] = "<html><head>Not allowed</head></html>";
+	ret[500] = "<html><head>Internal server error</head></html>";
+	ret[501] = "<html><head>Not Implemented</head></html>";
+	ret[502] = "<html><head>Bad Gateway</head></html>";
+	ret[503] = "<html><head>Service Unavaiable</head></html>";
+	ret[521] = "<html><head>Web server is down</head></html>";
 	return ;
 }
 

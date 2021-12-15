@@ -27,7 +27,7 @@ private:
 	int 						_status;
 	std::string					_request;
 	std::string					_response;
-	std::map<int, std::string>	*_error_pages;
+	const t_server&             _config;
 	int 						_close_connection_flag;
 	std::ostream 				*_log;
 
@@ -37,7 +37,7 @@ private:
 	Connection&		operator=(const Connection& conn);
 
 public:
-	Connection(int fd, std::string host, int port, std::map<int, std::string>* error_pages, std::ostream* log);
+	Connection(int fd, std::string host, int port, std::ostream* log, const t_server& config);
 	~Connection();
 
 	int 				getFd() const;
@@ -47,12 +47,19 @@ public:
 	int 				getCloseConnectionFlag() const;
 	std::string& 		getRequest();
 	std::string&		getResponse();
+	const t_server&	getConfig();
+//	Request&			getRequestStruct();
 
 	void 				setStatus(int status);
+	void                setResponse(const std::string& res);
+//	void 				setRequestStruct(const Request& req);
+	void				setCloseConnectionFlag(int flag);
+	void 				clear_request();
 
 	void 				read_request(const struct kevent& event);
 	void 				check_request();
 	void 				send_response();
+	std::string			get_error(int error);
 };
 
 

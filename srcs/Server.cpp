@@ -12,13 +12,13 @@
 
 #include "Server.hpp"
 
-Server::Server(const std::vector<t_server>& config, std::map<int, std::string>* error_pages, std::ostream *log)
+Server::Server(const std::vector<t_server>& config, std::ostream *log)
 	:	_config(config),
 		_fds_size(0),
 		_log(log)
 {
 
-	_connections = new Connection_storage(error_pages, _log);
+	_connections = new Connection_storage(_log, _config);
 	*_log << "server object was created" << std::endl;
 }
 
@@ -54,7 +54,7 @@ bool	Server::start()
 
 void 	Server::loop()
 {
-	struct kevent	events[MAX_EVENT];
+	struct kevent	events[5];
 	int 			events_count;
 
 	while(true)
@@ -75,6 +75,7 @@ void 	Server::handle_events(struct kevent* events, int count)
 	for (int i = 0; i < count; ++i)
 	{
 		fd = events[i].ident;
+//		std::cerr << "event flag = " << std::hex << (int)events[i].flags << std::endl;
 
 		*_log << "event on " << fd << " fd" << std::endl;
 		if (events[i].flags & EV_ERROR) {
@@ -85,15 +86,18 @@ void 	Server::handle_events(struct kevent* events, int count)
 			_connections->add_new_connection(it, _kq);
 			continue;
 		}
-		Connection&		connection = (*_connections)[fd];
-		if (events[i].flags & EVFILT_WRITE)
+		Connection&		connection = (*_connections)[events[i].ident];
+		if (events[i].flags & EV_EOF)
+			_connections->close_connection(events[i].ident);
+		else if (events[i].flags & EVFILT_WRITE)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);
-			if (connection.getStatus() == READY)
-				add_to_write_track(fd);
-//			else if (connection.getStatus() == COMPLETE)
-//				handle_request(connection);
+            if (connection.getStatus() == COMPLETE)
+                handle_requests(connection, *_log);
+            if (connection.getStatus() == READY) {
+                add_to_write_track(fd);
+            }
 		}
 		if (connection.getCloseConnectionFlag() & SHOULD_BE_CLOSED)
 			_connections->close_connection(fd);

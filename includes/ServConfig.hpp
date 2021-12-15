@@ -7,7 +7,7 @@ struct Location{
     std::string redirection;
     std::string root;
 
-    bool        dir_listing;
+    bool        auto_index;
     std::string default_file;
 
     std::string cgi;
