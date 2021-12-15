@@ -10,19 +10,19 @@ server
     {
         accepted_methods    GET
         root                /Users/msamual/Documents/yarik/yaroslav
-        dir_listing         true
+        auto_index          true
 
         default_file        index.hmtl
     }
 
-        location /yaroslav
-        {
-            accepted_methods    GET
-            root                /Users/msamual/Documents/yarik
-            dir_listing         true
+    location /yaroslav
+    {
+        accepted_methods    GET
+        root                /Users/msamual/Documents/yarik
+        auto_index          true
 
-            default_file        index.hmtl
-        }
+        default_file        index.hmtl
+    }
 }
 
 server
@@ -35,18 +35,8 @@ server
 
     location /
     {
-        root                /Users/msamual/Documents/site
-        auto_index          true
-    }
-
-    location .php
-    {
         accepted_methods    GET
-        location            /goods
-        redirection         /var/goods
-        root                /var/
-        auto_index         true
-        default_file        /var/default.hmtl
-        cgi                 /var/php
+        root                ./test_site
+        auto_index          true
     }
 }
