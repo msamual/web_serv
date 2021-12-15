@@ -90,6 +90,7 @@ void    handle_requests(Connection& conn, std::ostream& out)
 	Request				request(conn.getRequest());
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 
+	cgi(conn.getConfig(), request);
 	request.setPath(location.root, request.getUri());
 	if (request.getMethod() == "GET" && location.accepted_methods.find("GET") != std::string::npos)
 		handle_GET(out, request, location, conn);

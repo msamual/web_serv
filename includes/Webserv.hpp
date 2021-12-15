@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/15 15:42:12 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/15 16:33:22 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@
 #include "Request.hpp"
 #include "Socket.hpp"
 #include "Server.hpp"
+#include "Cgi.hpp"
 
 //functions
 std::vector<t_server>			parse_config(int ac, char **argv);
@@ -72,7 +73,7 @@ void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
 void							set_default_errors(std::map<int, std::string> &ret);
 std::ostream* 					open_log_file(int ac, char **av);
 bool							is_file(const char *file);
-int								cgi(t_server &server, const char *file);
+int								cgi(const t_server &server, Request &request);
 void                            handle_requests(Connection& conn, std::ostream& out);
 int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);

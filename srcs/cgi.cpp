@@ -1,6 +1,5 @@
 #include <Webserv.hpp>
 
-static const int ENV_LEN = 6;
 
 void
 print_env(const char **env){
@@ -11,23 +10,27 @@ print_env(const char **env){
 }
 
 int
-cgi(t_server &server, const char *file)
+cgi(const t_server &server, Request &request)
 {
-    static const char *env[ENV_LEN] = {
-        (std::string("HTTP_HOST=") + server.host).data(),
-        (std::string("Content-Length=") + "12").data(),
-        ("Server_Name="+server.names[0]).data(),
-        "VARIABLE2=sisa",
-        "VARIABLE3=sosisa",
-        NULL,
-    };
-    static const char *argv[5] = {
-        server.locations.back().default_file.c_str(),
-        file,
-        "VARIABLE2",
-        "VARIABLE3",
-        NULL
-    };
+    // static const char *env[] = {
+    //     (std::string("HTTP_HOST=") + server.host).data(),
+    //     (std::string("Content-Length=") + "12").data(),
+    //     ("Server_Name="+server.names[0]).data(),
+    //     "VARIABLE2=sisa",
+    //     "VARIABLE3=sosisa",
+    //     NULL,
+    // };
+    // static const char *argv[5] = {
+    //     server.locations.back().default_file.c_str(),
+    //     request.getPath().c_str(),
+    //     "VARIABLE2",
+    //     "VARIABLE3",
+    //     NULL
+    // };
+    std::cerr << "CGI Def file: " << server.locations.back().default_file << '\n';
+    Cgi vault(server, request);
+    const char **env = (const char **)vault.env.data();
+    const char **argv = (const char **)vault.argv.data();
 
     std::cout << "SERVER SIDE :\n";
     print_env(env);
@@ -39,11 +42,11 @@ cgi(t_server &server, const char *file)
         throw(std::runtime_error("pipes error"));
     }
 
-	// Duplicate stdin and stdout file descriptors
+	// Duplicate stdin and stdout request.getPath() descriptors
 	int OldStdIn = dup(fileno(stdin));
 	int OldStdOut = dup(fileno(stdout));
 
-	// Duplicate end of pipe to stdout and stdin file descriptors
+	// Duplicate end of pipe to stdout and stdin request.getPath() descriptors
 	if ((dup2(OutPipe[1], fileno(stdout)) == -1) || (dup2(InPipe[0], fileno(stdin)) == -1))
 		return 0;
     close(OutPipe[1]);
@@ -60,8 +63,8 @@ cgi(t_server &server, const char *file)
     close(OldStdIn);
 	close(OldStdOut);
 
-    std::string request = "Hello world!";
-    write(InPipe[1], request.c_str(), request.size());
+    std::string mess = "Hello world!";
+    write(InPipe[1], mess.c_str(), mess.size());
 
     while (1)
 	{

@@ -1,32 +1,9 @@
-#NAME =		webserv
-#
-#SRCS =		srcs/main.cpp
-#
-#INCLUDES =	includes/webserv.hpp
-#
-#CC =		clang++
-#
-#FLAGS =		-Wall -Wextra -Werror --std=c++98
-#
-#.PHONY: 	all clean fclean re
-#
-#all: 		$(NAME)
-#
-#$(NAME):	$(INCLUDES) $(SRCS)
-#			$(CC) $(SRCS) $(FLAGS) -o $@
-#
-#clean:
-#			rm -rf *.o
-#
-#fclean:		clean
-#			rm -rf $(NAME)
-
 NAME	=		webserv
 
 FILES	=		main Parser Server Socket Request utils_socket puterror Connection_storage Connection \
 				set_error_pages open_log handle_requests utils parse_request make_response http_response \
-				dir_listing_response cgi
-HEADERS =		Webserv Server ServConfig Socket Request Connection_storage Connection
+				dir_listing_response cgi CgiClass
+HEADERS =		Webserv Server ServConfig Socket Request Connection_storage Connection Cgi
 
 CXX		=		clang++
 
