@@ -53,6 +53,8 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 			make_response_get(200, file, conn, request);
 		}
 	}
+	else
+		http_response(404, conn);
 }
 
 void 	handle_dir(std::ostream& out, Request& request, const Location& location, Connection& conn)
