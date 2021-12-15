@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 18:18:16 by sgath             #+#    #+#             */
-/*   Updated: 2021/12/04 16:01:53 by tphung           ###   ########.fr       */
+/*   Updated: 2021/12/14 16:51:39 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 #include <sys/types.h>
 #include <sys/event.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 #include <sys/time.h>
 
@@ -57,7 +58,6 @@
 #include "Connection_storage.hpp"
 #include "Request.hpp"
 #include "Socket.hpp"
-#include "Location.hpp"
 #include "Server.hpp"
 
 //functions
@@ -77,6 +77,7 @@ int							 	is_complete_request(const std::string& request);
 const Request&				 	parse_request(Connection& connection);
 void							make_response_get(int status, std::istream& file, Connection& conn, const Request& request);
 void 							http_response(int status, Connection &connection);
+void							dir_listing_response(const std::string &path, const std::string& root, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
 bool 							is_address(const std::string& str);
