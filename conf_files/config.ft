@@ -18,7 +18,7 @@ server
         {
             accepted_methods    GET POST
             root                /Users/tphung/Documents/CPP
-            auto_index         true
+            auto_index          false
             default_file        index.hmtl
         }
 }
