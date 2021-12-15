@@ -79,5 +79,6 @@ void							make_response_get(int status, std::istream& file, Connection& conn, c
 void 							http_response(int status, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
+bool 							is_address(const std::string& str);
 
 #endif

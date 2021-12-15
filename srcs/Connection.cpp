@@ -96,7 +96,7 @@ void 			Connection::check_request()
 		std::string			met, rou, ver, host, value;
 		ss >> met >> rou >> ver >> host >> value;
 		if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos
-            || !is_address(rou));
+            || !is_address(rou))
 		{
 			http_response(400, *this);
             return ;

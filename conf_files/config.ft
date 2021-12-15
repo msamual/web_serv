@@ -8,7 +8,7 @@ server
 
     location /
     {
-        accepted_methods    GET POST
+        accepted_methods    GET
         root                /Users/msamual/Documents/yarik/yaroslav
         dir_listing         true
         default_file        index.hmtl
@@ -16,7 +16,7 @@ server
 
         location /yaroslav
         {
-            accepted_methods    GET POST
+            accepted_methods    GET
             root                /Users/msamual/Documents/yarik
             dir_listing         true
             default_file        index.hmtl
@@ -38,7 +38,7 @@ server
 
     location .php
     {
-        accepted_methods    GET POST
+        accepted_methods    GET
         location            /goods
         redirection         /var/goods
         root                /var/
