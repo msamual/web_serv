@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <Webserv.hpp>
 
 
@@ -31,9 +32,18 @@ cgi(const t_server &server, Request &request)
     Cgi vault(server, request);
     const char **env = (const char **)vault.env.data();
     const char **argv = (const char **)vault.argv.data();
+=======
+#include "CgiClass.hpp"
+
+int
+cgi()
+{
+    CgiClass    test;
+>>>>>>> next step is rebase
 
     std::cout << "SERVER SIDE :\n";
-    print_env(env);
+    // test.print_char_array(test.env);
+    test.print_char_array(test.argv);
     std::cout << "CLIENT SIDE :\n";
 
     int InPipe[2], OutPipe[2];
@@ -54,7 +64,7 @@ cgi(const t_server &server, Request &request)
 
     int child_pid = fork();
     if (child_pid == 0){//in child
-        execve(argv[0], (char *const *)argv, (char *const *)env);
+        execve(test.argv[0], (char *const *)test.argv, (char *const *)test.env);
         exit(0);
     }
 
@@ -84,4 +94,9 @@ cgi(const t_server &server, Request &request)
 			break;
 	}
     return OldStdOut;
+}
+
+int main(){
+    cgi();
+    return 0;
 }
