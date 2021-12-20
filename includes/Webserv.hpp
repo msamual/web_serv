@@ -60,7 +60,6 @@
 #include "Request.hpp"
 #include "Socket.hpp"
 #include "Server.hpp"
-#include "Cgi.hpp"
 
 //functions
 std::vector<t_server>			parse_config(int ac, char **argv);

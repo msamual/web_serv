@@ -1,45 +1,9 @@
-<<<<<<< HEAD
-#include <Webserv.hpp>
-
-
-void
-print_env(const char **env){
-    for (int i = 0; env[i] != NULL; ++i){
-        std::cout << env[i] << std::endl;
-    }
-    return ;
-}
+#include "CgiClass.hpp"
 
 int
 cgi(const t_server &server, Request &request)
 {
-    // static const char *env[] = {
-    //     (std::string("HTTP_HOST=") + server.host).data(),
-    //     (std::string("Content-Length=") + "12").data(),
-    //     ("Server_Name="+server.names[0]).data(),
-    //     "VARIABLE2=sisa",
-    //     "VARIABLE3=sosisa",
-    //     NULL,
-    // };
-    // static const char *argv[5] = {
-    //     server.locations.back().default_file.c_str(),
-    //     request.getPath().c_str(),
-    //     "VARIABLE2",
-    //     "VARIABLE3",
-    //     NULL
-    // };
-    std::cerr << "CGI Def file: " << server.locations.back().default_file << '\n';
-    Cgi vault(server, request);
-    const char **env = (const char **)vault.env.data();
-    const char **argv = (const char **)vault.argv.data();
-=======
-#include "CgiClass.hpp"
-
-int
-cgi()
-{
-    CgiClass    test;
->>>>>>> next step is rebase
+    CgiClass    test(server, request);
 
     std::cout << "SERVER SIDE :\n";
     // test.print_char_array(test.env);
@@ -94,9 +58,4 @@ cgi()
 			break;
 	}
     return OldStdOut;
-}
-
-int main(){
-    cgi();
-    return 0;
 }

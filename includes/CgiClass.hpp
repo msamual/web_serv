@@ -4,8 +4,8 @@
 # include "Webserv.hpp"
 
 struct CgiClass{
-    // Request         &request;
-    // Connection      &connection;
+    Request         &request;
+    const t_server  &server;
     char      **env;
     char      **argv;
     std::vector<std::string>    *vector_env;
@@ -13,8 +13,8 @@ struct CgiClass{
     char**    make_env();
     char**    make_argv();
     void            print_char_array(char **array);
-    // CgiClass(Request &request, Connection &connection);
-    CgiClass();
+    CgiClass(const t_server &server, Request &request);
+    // CgiClass();
     ~CgiClass();
 };
 

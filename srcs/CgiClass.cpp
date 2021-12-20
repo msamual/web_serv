@@ -21,7 +21,7 @@ CgiClass::make_env(){
     std::string *tmp;
     env = (char **)malloc(sizeof(char *) * (vector_env->size() + 1));
 
-    for (int i = 0; i < vector_env->size(); ++i){
+    for (size_t i = 0; i < vector_env->size(); ++i){
         tmp = &(vector_env->at(i));
         env[i] = (char *)tmp->data();
     }
@@ -40,7 +40,7 @@ CgiClass::make_argv(){
     std::string *tmp;
     argv = (char **)malloc(sizeof(char *) * (vector_argv->size() + 1));
 
-    for (int i = 0; i < vector_argv->size(); ++i){
+    for (size_t i = 0; i < vector_argv->size(); ++i){
         tmp = &(vector_argv->at(i));
         argv[i] = (char *)tmp->data();
     }
@@ -48,10 +48,10 @@ CgiClass::make_argv(){
     return argv;
 }
 
-CgiClass::CgiClass():
-// CgiClass::CgiClass(Request &request, Connection &connection):
-                                    // request(request),
-                                    // connection(connection),
+// CgiClass::CgiClass():
+CgiClass::CgiClass(const t_server &server, Request &request):
+                                    request(request),
+                                    server(server),
                                     env(make_env()),
                                     argv(make_argv())
 {}
