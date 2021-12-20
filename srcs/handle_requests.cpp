@@ -53,6 +53,8 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 			make_response_get(200, file, conn, request);
 		}
 	}
+	else
+		http_response(404, conn);
 }
 
 void 	handle_dir(std::ostream& out, Request& request, const Location& location, Connection& conn)
@@ -91,8 +93,13 @@ void    handle_requests(Connection& conn, std::ostream& out)
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 
 	cgi(conn.getConfig(), request);
+	if (location.accepted_methods.find("GET") == std::string::npos)
+	{
+		http_response(405, conn);
+		return ;
+	}
 	request.setPath(location.root, request.getUri());
-	if (request.getMethod() == "GET" && location.accepted_methods.find("GET") != std::string::npos)
+	if (request.getMethod() == "GET")
 		handle_GET(out, request, location, conn);
 	conn.clear_request();
     conn.setStatus(READY);
