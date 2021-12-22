@@ -1,14 +1,17 @@
 #include "CgiClass.hpp"
 
 int
-cgi(const t_server &server, Request &request)
+cgi(const t_server &server, Request &request, Connection &connection)
 {
-    CgiClass    test(server, request);
-
-    std::cout << "SERVER SIDE :\n";
+    CgiClass    test(server, request, connection);
+	// if (server.body_size){
+	// 	std::cout << "REQUEST :\n";
+	// 	std::cout << request;
+	// }
+    std::cout << "_____________SERVER SIDE :\n";
     // test.print_char_array(test.env);
-    test.print_char_array(test.argv);
-    std::cout << "CLIENT SIDE :\n";
+    // test.print_char_array(test.argv);
+    std::cout << "_____________CLIENT SIDE :\n";
 
     int InPipe[2], OutPipe[2];
 	
@@ -58,4 +61,5 @@ cgi(const t_server &server, Request &request)
 			break;
 	}
     return OldStdOut;
+	return 1;
 }

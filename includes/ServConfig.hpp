@@ -10,13 +10,14 @@ struct Location{
     bool        auto_index;
     std::string default_file;
 
-    std::string cgi;
+    bool        cgi;
     std::string upload_dir;
     bool        is_default;
     Location(): accepted_methods("GET POST DELETE"),
                 root("./test_site"),
                 auto_index(true),
                 default_file("index.html"),
+                cgi(false),
                 is_default(true)
     {};
 };

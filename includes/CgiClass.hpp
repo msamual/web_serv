@@ -6,6 +6,7 @@
 struct CgiClass{
     Request         &request;
     const t_server  &server;
+    Connection      &connection;
     char      **env;
     char      **argv;
     std::vector<std::string>    *vector_env;
@@ -13,7 +14,8 @@ struct CgiClass{
     char**    make_env();
     char**    make_argv();
     void            print_char_array(char **array);
-    CgiClass(const t_server &server, Request &request);
+    void            tokenize(const std::string &params);
+    CgiClass(const t_server &server, Request &request, Connection &connection);
     // CgiClass();
     ~CgiClass();
 };
