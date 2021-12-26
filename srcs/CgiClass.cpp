@@ -62,9 +62,10 @@ CgiClass::make_argv(){
     
     std::cout << "PATH = " << path << std::endl;
     std::cout << "PARAMS = " << params << std::endl;
-    if (!is_file(path.c_str())){
-        throw std::invalid_argument("CGI script not found!");
-    }
+    // if (!is_file(path.c_str())){
+        // throw std::invalid_argument("CGI script not found!");
+        // http_response(403, this->connection);
+    // }
     vector_argv->push_back(path);
     if (params != ""){
         this->tokenize(params);
