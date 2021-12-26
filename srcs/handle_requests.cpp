@@ -100,7 +100,7 @@ void    handle_requests(Connection& conn, std::ostream& out)
 		return ;
 	}
 	request.setPath(location.root, request.getUri());
-	if (location.cgi)
+	if (location.cgi != "")
 		cgi(conn.getConfig(), request, conn); //it is for test
 	else if (request.getMethod() == "GET")
 		handle_GET(out, request, location, conn);

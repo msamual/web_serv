@@ -146,7 +146,7 @@ make_location(std::vector<std::string> &tokens, Location &ret)
     }
     else if (tokens.at(0) == "cgi"){
         if (tokens.at(1) == "true"){
-            ret.cgi = true;
+            ret.cgi = "true";
         }
     }
     else if (tokens.at(0) == "upload_dir"){
