@@ -4,6 +4,8 @@
 
 #include "../includes/Webserv.hpp"
 
+class Server;
+
 const Location&		find_location(const std::string& uri, const std::vector<Location>& locations)
 {
 	size_t 		max_match = 0;
@@ -87,17 +89,25 @@ void	handle_GET(std::ostream& out, Request& request, const Location& location, C
 
 }
 
-void    handle_requests(Connection& conn, std::ostream& out)
+int 	cgi_handler(Connection& conn)
+{
+	return conn.getFd() + 50;
+}
+
+void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 {
 	Request				request(conn.getRequest());
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
+	int 				cgi_fd = -1;
 
-	std::cout << "REQUEST :\n";
-	std::cout << request;
-	if (location.accepted_methods.find("GET") == std::string::npos)
-	{
+	if (location.accepted_methods.find("GET") == std::string::npos) {
 		http_response(405, conn);
-		return ;
+		return;
+	}
+	if (location.cgi != "") {
+		server.set_cgi_connection(&conn);
+		cgi_fd = cgi_handler(conn);
+		server.add_to_read_track(cgi_fd);
 	}
 	request.setPath(location.root, request.getUri());
 	if (location.cgi != "")
