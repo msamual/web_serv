@@ -100,18 +100,16 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
 
+	request.setPath(location.root, request.getUri());
 	if (location.accepted_methods.find("GET") == std::string::npos) {
 		http_response(405, conn);
-		return;
+		return ;
 	}
 	if (location.cgi != "") {
 		server.set_cgi_connection(&conn);
-		cgi_fd = cgi_handler(conn);
+		cgi_fd = cgi(conn.getConfig(), request, conn); //it is for test
 		server.add_to_read_track(cgi_fd);
 	}
-	request.setPath(location.root, request.getUri());
-	if (location.cgi != "")
-		cgi(conn.getConfig(), request, conn); //it is for test
 	else if (request.getMethod() == "GET")
 		handle_GET(out, request, location, conn);
 	conn.clear_request();
