@@ -26,10 +26,9 @@ class			Server
 
 private:
 	int 										_kq;
+	int											_cgi_fd;
+	Connection*									_cgi_conn;
 	std::vector<t_server>						_config;
-	std::string									_htmlData;
-	struct kevent								_fds[CONN_NUMBER];
-	size_t 										_fds_size;
 	listen_map									_listening_sockets;
 	Connection_storage							*_connections;
 	std::ostream 								*_log;
@@ -47,11 +46,16 @@ public:
 	bool		start();
 	void 		add_kevent_struct(struct kevent k);
 
+	void 		add_to_read_track(int fd);
+
+	void 		set_cgi_connection(Connection* conn);
+
 private:
 	void 		loop();
 	void 		handle_events(struct kevent* events, int count);
 	void 		add_listening_sockets_to_track();
 	void 		add_to_write_track(int fd);
+	void 		read_wrap_and_reg_cgi_response(int fd, const struct kevent& event);
 };
 
 #endif

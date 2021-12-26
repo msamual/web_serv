@@ -14,7 +14,6 @@
 
 Server::Server(const std::vector<t_server>& config, std::ostream *log)
 	:	_config(config),
-		_fds_size(0),
 		_log(log)
 {
 
@@ -24,7 +23,6 @@ Server::Server(const std::vector<t_server>& config, std::ostream *log)
 
 Server::Server(const Server &v) :
 	_config(v._config),
-	_htmlData(v._htmlData),
 	_log(v._log)
 {}
 
@@ -32,7 +30,6 @@ Server&	Server::operator=(const Server &v)
 {
     if (&v != this){
         _config = v._config;
-        _htmlData = v._htmlData;
     }
     return (*this);
 }
@@ -81,6 +78,11 @@ void 	Server::handle_events(struct kevent* events, int count)
 		if (events[i].flags & EV_ERROR) {
 			throw std::runtime_error("event error");
 		}
+		if (fd == _cgi_fd)
+		{
+			read_wrap_and_reg_cgi_response(fd, events[i]);
+			continue ;
+		}
 		it = _listening_sockets.find(fd);
 		if (it != _listening_sockets.end()) {
 			_connections->add_new_connection(it, _kq);
@@ -94,7 +96,7 @@ void 	Server::handle_events(struct kevent* events, int count)
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);
             if (connection.getStatus() == COMPLETE)
-                handle_requests(connection, *_log);
+                handle_requests(connection, *_log, *this);
             if (connection.getStatus() == READY) {
                 add_to_write_track(fd);
             }
@@ -115,9 +117,20 @@ void 	Server::add_listening_sockets_to_track()
 		memset(&changelist, 0, sizeof(changelist));
 		EV_SET(&changelist, i->first, EVFILT_READ, EV_ADD, 0, 0, 0);
 		if (kevent(_kq, &changelist, 1, NULL, 0, NULL) == -1)
-			throw std::runtime_error ("add event to kqueue failed");
+			throw std::runtime_error ("add read event to kqueue failed");
 		*_log << "add " << changelist.ident << " fd to track" << std::endl;
 	}
+}
+
+void 	Server::add_to_read_track(int fd)
+{
+	struct kevent	changelist;
+
+	memset(&changelist, 0, sizeof(changelist));
+	EV_SET(&changelist, fd, EVFILT_READ, EV_ADD | EV_ONESHOT, 0, 0, 0);
+	if (kevent(_kq, &changelist, 1, NULL, 0, NULL) == -1)
+		throw std::runtime_error ("add read event to kqueue failed");
+	this->_cgi_fd = fd;
 }
 
 void 	Server::add_to_write_track(int fd)
@@ -127,11 +140,30 @@ void 	Server::add_to_write_track(int fd)
 	memset(&changelist, 0, sizeof(changelist));
 	EV_SET(&changelist, fd, EVFILT_WRITE, EV_ADD | EV_ONESHOT, 0, 0, 0);
 	if (kevent(_kq, &changelist, 1, NULL, 0, NULL) == -1)
-		throw std::runtime_error ("add event to kqueue failed");
+		throw std::runtime_error ("add write event to kqueue failed");
 }
 
-void 	Server::add_kevent_struct(struct kevent k)
+void 	Server::read_wrap_and_reg_cgi_response(int fd, const struct kevent &event)
 {
-	_fds[_fds_size++] = k;
+	char	buf[event.data + 1];
+	int		ret;
+	ret = recv(fd, buf, event.data, 0);
+	if (ret < 0)
+	{
+		*_log << "read from cgi failed()! fd = " << fd << std::endl;
+		close(fd);
+		delete _cgi_conn;
+		return ;
+	}
+	buf[ret] = 0;
+	_cgi_conn->setResponse("HTTP/1.1 200 ok\r\nHost: " + _cgi_conn->getHost() + ":"
+							+ itos(_cgi_conn->getPort()) + "\r\n" + buf);
+	add_to_write_track(_cgi_conn->getFd());
+	_cgi_fd = -1;
+	_cgi_conn = nullptr;
 }
 
+void 	Server::set_cgi_connection(Connection *conn)
+{
+	_cgi_conn = conn;
+}

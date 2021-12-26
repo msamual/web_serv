@@ -60,6 +60,11 @@ status_to_text(int status){
     return "ERROR";
 }
 
+//void 	wrap_and_regist_cgi_response(std::string& response, int fd, Server& server, Connection& conn)
+//{
+//	conn.setResponse()
+//}
+
 void
 http_response(int status, Connection &connection){
     std::string ret = "HTTP/1.1 ";
