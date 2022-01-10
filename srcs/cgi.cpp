@@ -46,7 +46,7 @@ cgi(const t_server &server, Request &request, Connection &connection)
 		const std::string &body = request.getBody();
 		write(InPipe[1], body.c_str(), body.size());
 	}
-    while (1)
+    //while (1)
 	// {
 	// 	// Читаем ответ от дочернего процесса
 	// 	char bufferOut[100000];
