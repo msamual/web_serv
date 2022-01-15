@@ -4,7 +4,7 @@ int
 cgi(const t_server &server, Request &request, Connection &connection)
 {
     if (!is_file(request.getPath().c_str())){
-        http_response(403, connection);
+        http_response(404, connection);
 		return (-1);
     }
     CgiClass    test(server, request, connection);
