@@ -190,7 +190,7 @@ parse_config(int ac, char **argv)
 
     for (i = 1; i <= ac; ++i){
         if (i == ac){
-            tmp = "conf_files/.def_config.ft";
+            tmp = "conf_files/.def_config.ftt";
         }
         else if (is_file(argv[i])){
             tmp = argv[i];

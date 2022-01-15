@@ -1,0 +1,23 @@
+server
+{
+    DEFAULT
+    listen                  localhost:8080 default
+    server_names            example.org www.example.org
+    error_page              521 custom_errors/521.html
+    body_size               1024
+
+    location /
+    {
+        accepted_methods    GET POST
+        root                ./site/
+        auto_index          false
+        default_file        index.html
+    }
+
+    location /script.py
+    {
+        accepted_methods    GET
+        root                ./cgi_bin/
+        cgi                 true
+    }
+}
