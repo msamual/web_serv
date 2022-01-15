@@ -71,6 +71,8 @@ void 			Connection::send_response()
 {
 	size_t ret;
 
+	std::cerr << _response << std::endl;
+
 	ret = send(_fd, _response.data(), _response.size(), 0);
 	if (ret < 0)
 		std::cerr << "send() failed to " << _fd << " fd." << std::endl;

@@ -20,4 +20,11 @@ server
         root                ./cgi_bin/
         cgi                 true
     }
+
+    location /form.py
+    {
+        accepted_methods    GET POST
+        root                ./cgi_bin/
+        cgi                 true
+    }
 }
