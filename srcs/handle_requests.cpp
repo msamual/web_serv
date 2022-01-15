@@ -89,29 +89,27 @@ void	handle_GET(std::ostream& out, Request& request, const Location& location, C
 
 }
 
-int 	cgi_handler(Connection& conn)
-{
-	return conn.getFd() + 50;
-}
-
 void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 {
 	Request				request(conn.getRequest());
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
 
-	if (location.accepted_methods.find("GET") == std::string::npos) {
-		http_response(405, conn);
-		return;
-	}
-	if (location.cgi != "") {
-		server.set_cgi_connection(&conn);
-		cgi_fd = cgi_handler(conn);
-		server.add_to_read_track(cgi_fd);
-	}
-	request.setPath(location.root, request.getUri());
-	if (request.getMethod() == "GET")
-		handle_GET(out, request, location, conn);
-	conn.clear_request();
+    request.setPath(location.root, request.getUri());
+    if (location.cgi != "") {
+        server.set_cgi_connection(&conn);
+        cgi_fd = cgi(conn.getConfig(), request, conn); //it is for test
+        if (cgi_fd > 0)
+            server.add_to_read_track(cgi_fd);
+        return ;
+    }
+    else if (location.accepted_methods.find("GET") == std::string::npos) {
+        http_response(405, conn);
+        return ;
+    }
+    else if (request.getMethod() == "GET") {
+        handle_GET(out, request, location, conn);
+    }
+    conn.clear_request();
     conn.setStatus(READY);
 }

@@ -147,7 +147,8 @@ void 	Server::read_wrap_and_reg_cgi_response(int fd, const struct kevent &event)
 {
 	char	buf[event.data + 1];
 	int		ret;
-	ret = recv(fd, buf, event.data, 0);
+	// ret = recv(fd, buf, event.data, 0);
+	ret = read(fd, buf, event.data);
 	if (ret < 0)
 	{
 		*_log << "read from cgi failed()! fd = " << fd << std::endl;
