@@ -11,7 +11,7 @@ SRC_DIR	=		srcs/
 OBJ_DIR	=		objs/
 INCLUDE_DIR =	includes/
 
-FLAGS	= -I $(INCLUDE_DIR) -g
+FLAGS	= -Wall -Wextra -Werror -I $(INCLUDE_DIR) -g
 
 SRCS 	= $(patsubst %, $(SRC_DIR)%.cpp, $(FILES))
 HDRS	= $(patsubst %, $(INCLUDE_DIR)%.hpp, $(HEADERS))

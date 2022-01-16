@@ -95,8 +95,8 @@ make_config(std::vector<std::string> &tokens, std::vector<t_server> &ret)
             ret.back().names.push_back(tokens.at(i));
         }
     }
-    else if (tokens.at(0) == "body_size"){
-        ret.back().body_size = std::atoi(tokens.at(1).c_str());
+    else if (tokens.at(0) == "max_body_size"){
+        ret.back().max_body_size = std::atoi(tokens.at(1).c_str());
     }
     else if (tokens.at(0) == "location"){
         ret.back().locations.push_back(Location());
@@ -129,6 +129,9 @@ make_location(std::vector<std::string> &tokens, Location &ret)
         for (size_t i = 1; i < tokens.size(); ++i){
             ret.accepted_methods += tokens.at(i) + " ";
         }
+    }
+    else if (tokens.at(0) == "max_body_size"){
+    	ret.max_body_size = std::atoi(tokens.at(1).c_str());
     }
     else if (tokens.at(0) == "redirection"){
         ret.redirection = tokens.at(1);

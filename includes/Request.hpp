@@ -41,6 +41,7 @@ public:
 	void 										setUri(const std::string &uri);
 	void 										setHeaders(const std::map<std::string, std::string> &headers);
 	void 										setBody(const std::string &body);
+	void 										setPath(const std::string &path);
 	void 										setPath(const std::string &root, const std::string &uri);
 
 	void 										parse_request_string(std::string& req);

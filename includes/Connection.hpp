@@ -57,7 +57,6 @@ public:
 	void 				clear_request();
 
 	void 				read_request(const struct kevent& event);
-	void 				check_request();
 	void 				send_response();
 	std::string			get_error(int error);
 };

@@ -49,7 +49,7 @@ int 	is_complete_request(const std::string& request)
 		{
 			if (body == true)
 				body = false;
-			else
+			else if (request.substr(request.length() - 4, request.length()) == "\r\n\r\n")
 				return COMPLETE;
 		}
 	}
@@ -62,4 +62,44 @@ std::string		itos(int num)
 
 	ss << num;
 	return ss.str();
+}
+
+bool 			check_request(Connection& conn)
+{
+	std::string str = conn.getRequest();
+
+	if (str == "\r\n")
+	{
+		str = "";
+		return false;
+	}
+	std::stringstream	ss(str);
+	std::string			met, rou, ver, host, value;
+	ss >> met >> rou >> ver >> host >> value;
+	if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos
+	|| !is_address(rou))
+	{
+		http_response(400, conn);
+		return false;
+	}
+	if (ver != "HTTP/1.1")
+	{
+		http_response(405, conn);
+		return false;
+	}
+	if (find_new_line(str) > 1 && (host != "Host:" || value.length() == 0))
+	{
+		http_response(400, conn);
+		return false;
+	}
+	return true;
+}
+
+std::string 	get_res_path(const std::string& location, const std::string& uri)
+{
+	int i = 0;
+
+	while (location[i] && location[i] == uri[i])
+		++i;
+	return uri.substr(i, uri.length() - 1);
 }

@@ -98,8 +98,12 @@ Request::setBody(const std::string& body) {
 }
 
 void
+Request::setPath(const std::string &path) { _path = path; }
+
+void
 Request::setPath(const std::string &path, const std::string &uri) {
 	std::string p, u;
+
 	if (path.back() == '/')
 		p = path.substr(0, path.length() - 1);
 	else
@@ -163,3 +167,4 @@ void 	Request::parse_body(std::string &req)
 		_body = req.substr(i, stoi(_headers["Content-length"]));
 	}
 }
+

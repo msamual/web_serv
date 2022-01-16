@@ -11,6 +11,13 @@ std::string 	get_status_msg(int n)
 	return "OK";
 }
 
+void 	make_response_put(int status, Connection& conn)
+{
+	std::string		response("HTTP/1.1 " + status_to_text(status) + "\r\n");
+	response += "Host: " + conn.getHost() + ":" + itos(conn.getPort()) + "\r\n\r\n";
+	conn.setResponse(response);
+}
+
 void	make_response_get(int status, std::istream& file, Connection& conn, const Request& request)
 {
 	std::string		response("HTTP/1.1 " + status_to_text(status) + "\r\n");
