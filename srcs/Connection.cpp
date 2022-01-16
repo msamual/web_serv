@@ -63,8 +63,10 @@ void 				Connection::read_request(const struct kevent& event)
 	    return ;
 	}
 	buf[ret] = 0;
+	 *_log << "Пришло: " << std::string(buf) << '|' << std::endl << std::endl;
 	_request.append(buf);
 	check_request();
+	*_log << "STATUS = " << _status << std::endl;
 }
 
 void 			Connection::send_response()
@@ -74,8 +76,8 @@ void 			Connection::send_response()
 	ret = send(_fd, _response.data(), _response.size(), 0);
 	if (ret < 0)
 		std::cerr << "send() failed to " << _fd << " fd." << std::endl;
-//	if (ret == 0)
-//		_close_connection_flag = SHOULD_BE_CLOSED;
+	if (ret == 0)
+		_close_connection_flag = SHOULD_BE_CLOSED;
 	*_log << "send " << ret << " bytes in " << _fd << "fd." << std::endl;
 	_response = "";
 	_status = INCOMPLETE;
@@ -101,11 +103,11 @@ void 			Connection::check_request()
 			http_response(400, *this);
             return ;
 		}
-        if (ver != "HTTP/1.1")
-        {
-			http_response(405, *this);
-            return ;
-        }
+//        if (ver != "HTTP/1.1")
+//        {
+//			http_response(405, *this);
+//            return ;
+//        }
         if (find_new_line(_request) > 1 && (host != "Host:" || value.length() == 0))
         {
 			http_response(400, *this);

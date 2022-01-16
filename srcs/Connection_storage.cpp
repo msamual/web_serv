@@ -57,6 +57,10 @@ const t_server&		Connection_storage::find_config(listen_map::iterator sock, cons
 
 void 				Connection_storage::close_connection(int fd)
 {
+//	std::cout << "Произошел разрыв соединения Request=" + _connections[fd]->getRequest() << std::endl;
+//	std::cout << "Response =\n" << _connections[fd]->getResponse() << std::endl;
+//	std::cout << "Status = " << _connections[fd]->getStatus() << std::endl;
+//	std::cout << "Close connection flag = " << _connections[fd]->getCloseConnectionFlag() << std::endl;
 	delete _connections[fd];
 	_connections.erase(fd);
 }

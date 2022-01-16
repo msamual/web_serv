@@ -85,5 +85,6 @@ void							dir_listing_response(const std::string &path, const std::string& root
 std::string						status_to_text(int status);
 std::string						itos(int num);
 bool 							is_address(const std::string& str);
+void 							handle_POST(std::ostream& out, Request& request, const Location& location, Connection& conn);
 
 #endif

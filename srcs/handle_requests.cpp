@@ -97,6 +97,8 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
 
+//	std::cout << "HAVE REQUEST :\n" << conn.getRequest() << std::endl;
+
     request.setPath(location.root, request.getUri());
     if (location.cgi != "") {
         server.set_cgi_connection(&conn);
@@ -105,12 +107,15 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
             server.add_to_read_track(cgi_fd);
         return ;
     }
-    else if (location.accepted_methods.find("GET") == std::string::npos) {
+    else if (location.accepted_methods.find(request.getMethod()) == std::string::npos) {
         http_response(405, conn);
         return ;
     }
     else if (request.getMethod() == "GET") {
         handle_GET(out, request, location, conn);
+    }
+    else if (request.getMethod() == "POST") {
+    	handle_POST(out, request, location, conn);
     }
     conn.clear_request();
     conn.setStatus(READY);

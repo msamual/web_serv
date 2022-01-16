@@ -91,7 +91,7 @@ void 	Server::handle_events(struct kevent* events, int count)
 		Connection&		connection = (*_connections)[events[i].ident];
 		if (events[i].flags & EV_EOF)
 			_connections->close_connection(events[i].ident);
-		else if (events[i].flags & EVFILT_WRITE)
+		if (events[i].flags & EVFILT_WRITE)
 			connection.send_response();
 		else if (events[i].flags & EVFILT_READ) {
 			connection.read_request(events[i]);

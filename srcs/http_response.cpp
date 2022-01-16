@@ -77,10 +77,10 @@ http_response(int status, Connection &connection){
     else{
         ret += tmp + "\r\n";
     }
-    ret += "Host: " + connection.getHost() + ":" + itos(connection.getPort());
+    ret += "Host: " + connection.getHost() + ":" + itos(connection.getPort()) + "\r\n";
     ret += "Content-type: text/html\r\n";
     tmp = connection.get_error(status);
-    ret += "Content-length: " + itos(tmp.size()) + "\r\n\r\n";
+    ret += "Content-length: " + itos(tmp.size() + 4) + "\r\n\r\n";
     ret += tmp + "\r\n\r\n";
 
 	connection.setResponse(ret);

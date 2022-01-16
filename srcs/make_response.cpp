@@ -23,9 +23,9 @@ void	make_response_get(int status, std::istream& file, Connection& conn, const R
 
 	response += "Host: " + conn.getHost() + ":" + itos(conn.getPort()) + "\r\n";
 	response += "Content-type: " + content_type + "\r\n";
-	response += "Content-length: " + itos(content.length() + 1) + "\r\n\r\n";
+	response += "Content-length: " + itos(content.length() + 4) + "\r\n\r\n";
 	response += content + "\r\n\r\n";
-//	res1ponse += (char)EOF;
+	//response += (char)EOF;
 
 	conn.setResponse(response);
 }
