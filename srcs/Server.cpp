@@ -6,7 +6,7 @@
 /*   By: tphung <tphung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 19:14:59 by sgath             #+#    #+#             */
-/*   Updated: 2022/01/15 18:04:15 by tphung           ###   ########.fr       */
+/*   Updated: 2022/01/16 11:29:38 by tphung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void 	Server::read_wrap_and_reg_cgi_response(int fd, const struct kevent &event)
 		return ;
 	}
 	buf[ret] = 0;
+	std::cerr << buf << std::endl;
 	_cgi_conn->setResponse("HTTP/1.1 200 ok\r\nHost: " + _cgi_conn->getHost() + ":"
 							+ itos(_cgi_conn->getPort()) + "\r\n" + buf);
 	add_to_write_track(_cgi_conn->getFd());

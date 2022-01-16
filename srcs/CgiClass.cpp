@@ -16,16 +16,22 @@ CgiClass::make_env(){
     vector_env->push_back("CONTENT_LENGTH=");
     vector_env->push_back("CONTENT_TYPE=");
     vector_env->push_back("GATEWAY_INTERFACE=CGI/1.1");
-    vector_env->push_back("PATH_INFO=");
+    vector_env->push_back("PATH_INFO=" + this->path_info);
     vector_env->push_back("PATH_TRANSLATED=");
     vector_env->push_back("QUERY_STRING=" + this->request.getParams());
     vector_env->push_back("REMOTE_ADDR=" + this->connection.getHost());
     vector_env->push_back("REMOTE_HOST=");//SHOULD set domain name of client if available
     //vector_env->push_back("REMOTE_IDENT=" + this->connection.getHost());//MAY be used to provide identity information
     //vector_env->push_back("REMOTE_USER=" + this->connection.getHost());//MUST set if AUTH_TYPE is set to Basic or Digest
+    std::string host = (this->request.getHeaders()).at("Host");
+    if (host == ""){
+        host = (this->request.getHeaders()).at("Host");
+    }
     vector_env->push_back("REQUEST_METHOD=" + this->request.getMethod());
-    vector_env->push_back((std::string("HTTP_HOST=") + "host").data());
-    vector_env->push_back(("Server_Name=" + std::string("server_name")).data());
+    vector_env->push_back("SCRIPT_NAME=" + this->path);//may NEED another format of path
+    vector_env->push_back(("SERVER_NAME=" + host));
+    vector_env->push_back(("SERVER_PORT=8080"));//BULLSHIT
+    vector_env->push_back(("SERVER_PROTOCOL=HTTP/1.1"));
 
     std::string *tmp;
     env = (char **)malloc(sizeof(char *) * (vector_env->size() + 1));
@@ -57,16 +63,16 @@ CgiClass::tokenize(const std::string &params)
 char **
 CgiClass::make_argv(){
     this->vector_argv = new std::vector<std::string>;
-    const std::string   &path = this->request.getPath();
+//    const std::string   &path = this->request.getPath();
     const std::string   &params = this->request.getParams();
     
-    std::cout << "PATH = " << path << std::endl;
-    std::cout << "PARAMS = " << params << std::endl;
+//    std::cout << "PATH = " << path << std::endl;
+//    std::cout << "PARAMS = " << params << std::endl;
     // if (!is_file(path.c_str())){
         // throw std::invalid_argument("CGI script not found!");
         // http_response(403, this->connection);
     // }
-    vector_argv->push_back(path);
+    vector_argv->push_back(this->path);
     if (params != ""){
         this->tokenize(params);
     }
@@ -82,13 +88,50 @@ CgiClass::make_argv(){
     return argv;
 }
 
-// CgiClass::CgiClass():
+Request & CgiClass::path_validation(Request &request)
+{
+	this->path = request.getPath();
+	this->path_info = "";
+
+	std::string	token;
+	size_t  	it = 0;
+	size_t		ite = path.length();
+
+	while(path != "")
+	{
+		if (is_file(path.c_str())) {
+			break ;
+		}
+		it = path.find_last_of('/');
+		this->path_info = this->path.substr(it, ite) + path_info;
+		ite = it;
+		this->path = this->path.substr(0, ite);
+	}
+	if (path == ""){
+		throw std::invalid_argument("cgi script does not exist");
+	}
+	std::cerr << "____PATH____\n";
+	std::cerr << this->path << std::endl;
+	std::cerr << "____PATHINFO____\n";
+	std::cerr << this->path_info << std::endl;
+//    if (!is_file(request.getPath().c_str())){
+//        http_response(404, connection);
+//		return (-1);
+//    }
+	return request;
+}
+
+void	CgiClass::start() {
+	path_validation(this->request);
+	this->env = make_env();
+	this->argv = make_argv();
+	return ;
+}
+
 CgiClass::CgiClass(const t_server &server, Request &request, Connection &connection):
                                     request(request),
                                     server(server),
-                                    connection(connection),
-                                    env(make_env()),
-                                    argv(make_argv())
+                                    connection(connection)
 {}
 
 CgiClass::~CgiClass(){

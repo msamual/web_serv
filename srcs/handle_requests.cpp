@@ -18,7 +18,7 @@ const Location&		find_location(const std::string& uri, const std::vector<Locatio
 			++count;
 		if (count == uri.length() && count == locations[i].location.length())
 			return locations[i];
-		if (count > max_match && uri[count - 1] == '/')
+		if (count > max_match && (uri[count - 1] == '/' || locations[i].location.length() == count))
 		{
 			max_match = count;
 			max_index = i;

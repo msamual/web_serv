@@ -3,15 +3,18 @@
 int
 cgi(const t_server &server, Request &request, Connection &connection)
 {
-    if (!is_file(request.getPath().c_str())){
+//    if (!is_file(request.getPath().c_str())){
+//        http_response(404, connection);
+//		return (-1);
+//    }
+	CgiClass test(server, request, connection);
+	try {
+		test.start();
+	}
+	catch (std::invalid_argument &e) {
         http_response(404, connection);
 		return (-1);
-    }
-    CgiClass    test(server, request, connection);
-    // std::cout << "_____________SERVER SIDE :\n";
-    // test.print_char_array(test.env);
-    // test.print_char_array(test.argv);
-    // std::cout << "_____________CLIENT SIDE :\n";
+	}
     int InPipe[2], OutPipe[2];
 	
 	if (pipe(InPipe) != 0 || pipe(OutPipe) != 0){

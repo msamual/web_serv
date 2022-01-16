@@ -21,7 +21,7 @@ server
         cgi                 true
     }
 
-    location /form.py
+    location /cgi_tester
     {
         accepted_methods    GET POST
         root                ./cgi_bin/
