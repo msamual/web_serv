@@ -30,6 +30,7 @@ private:
 	const t_server&             _config;
 	int 						_close_connection_flag;
 	std::ostream 				*_log;
+	std::ofstream				*_chunked_stream;
 
 	Connection();
 	Connection(const Connection& conn);
@@ -48,13 +49,17 @@ public:
 	std::string& 		getRequest();
 	std::string&		getResponse();
 	const t_server&	getConfig();
+	std::ofstream*		getChunkedStream();
 //	Request&			getRequestStruct();
 
 	void 				setStatus(int status);
 	void                setResponse(const std::string& res);
 //	void 				setRequestStruct(const Request& req);
 	void				setCloseConnectionFlag(int flag);
+	void 				setChunkedStream(std::ofstream *chunked_stream);
+
 	void 				clear_request();
+	bool 				isChunked();
 
 	void 				read_request(const struct kevent& event);
 	void 				send_response();

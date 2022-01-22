@@ -27,7 +27,7 @@ bool 	write_in_file(const std::string& file, const std::string& content, std::os
 
 void 	handle_POST(std::ostream& out, Request& request, const Location& location, Connection& conn)
 {
-//	map::const_iterator cotent_length = request.getHeaders().find("Content-Length");
+//	map::const_iterator content_length = request.getHeaders().find("Content-Length");
 	std::string 	res_name = location.upload_dir + get_res_path(location.location, request.getUri());
 	int 			status_code;
 
