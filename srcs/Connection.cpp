@@ -19,6 +19,9 @@ Connection::Connection(int fd, std::string host, int port, std::ostream* log, co
 Connection::~Connection()
 {
 	close(_fd);
+	if (this->_chunked_stream != NULL){
+		delete this->_chunked_stream;
+	}
 	*_log << "close connection on " << _fd << " fd." << std::endl;
 }
 
@@ -37,10 +40,15 @@ std::string			Connection::get_error(int error)
 		return it->second;
 	return "<html><head>" + status_to_text(error) + "</head></html>\n";
 }
+std::ofstream*		Connection::getChunkedStream() { return this->_chunked_stream; }
 
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
 void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
+
+void 				Connection::setChunkedStream(std::ofstream *chunked_stream) { this->_chunked_stream = chunked_stream }
+bool 				Connection::isChunked() { return (this->_chunked_stream != NULL); }
+
 void 				Connection::clear_request() { _request = ""; }
 
 void 				Connection::read_request(const struct kevent& event)
