@@ -93,7 +93,7 @@ void	handle_GET(std::ostream& out, Request& request, const Location& location, C
 
 void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 {
-	if (check_request(conn) == false)
+	if (!conn.isChunked() && check_request(conn) == false)
 		return ;
 
 	Request				request(conn.getRequest(), conn.isChunked());
@@ -118,9 +118,14 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
     else if (request.getMethod() == "GET") {
         handle_GET(out, request, location, conn);
     }
-    else if (request.getMethod() == "POST" || request.getMethod() == "PUT") {
+    else if (request.getMethod() == "POST" || request.getMethod() == "PUT"
+    		|| conn.isChunked()) {
     	handle_POST(out, request, location, conn);
     }
+    size_t size_body = request.getBody().size();
+    size_t size_req = conn.getRequest().size();
+
+    std::cout << size_body << size_req << std::endl;
     conn.clear_request();
     conn.setStatus(connection_status);
 }
