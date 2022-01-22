@@ -21,7 +21,7 @@ private:
 
 public:
 	Request();
-	Request(const std::string& str);
+	Request(const std::string& str, bool is_chunked);
 	Request(const Request& other);
 	~Request();
 
@@ -47,6 +47,7 @@ public:
 	void 										parse_request_string(std::string& req);
 	void 										parse_headers(std::string& req);
 	void 										parse_body(std::string& req);
+	void 										parse_chunked_body(const std::string& req);
 };
 
 std::ostream&									operator<<(std::ostream& stream, const Request& req);

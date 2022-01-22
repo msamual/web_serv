@@ -96,7 +96,7 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 	if (check_request(conn) == false)
 		return ;
 
-	Request				request(conn.getRequest());
+	Request				request(conn.getRequest(), conn.isChunked());
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
 	int 				connection_status = READY;

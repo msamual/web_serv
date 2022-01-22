@@ -7,13 +7,18 @@
 Request::Request()
 {}
 
-Request::Request(const std::string &str)
+Request::Request(const std::string &str, bool is_chunked = false)
 {
 	std::string		req = str;
 
-	parse_request_string(req);
-	parse_headers(req);
-	parse_body(req);
+	if (is_chunked)
+		parse_chunked_body(str);
+	else
+	{
+		parse_request_string(req);
+		parse_headers(req);
+		parse_body(req);
+	}
 }
 
 Request::Request(const Request &other)
@@ -157,10 +162,40 @@ void 	Request::parse_headers(std::string &req)
 	}
 }
 
+void 	Request::parse_chunked_body(const std::string &req)
+{
+	size_t 	i = req.find("\r\n\r\n") + 4;
+	size_t 	chunk_size;
+	std::string body = req.substr(i, req.size());
+	std::stringstream ss(body);
+	char 				buf[4096];
+
+	while (true)
+	{
+		ss >> chunk_size;
+		if (chunk_size == 0)
+			break;
+		ss.ignore('\r');
+		ss.ignore();
+		ss.read(buf, chunk_size);
+		buf[chunk_size] = 0;
+		ss.ignore('\r');
+		ss.ignore();
+		this->_body += buf;
+	}
+}
+
 void 	Request::parse_body(std::string &req)
 {
-	if (_headers.find("Content-length") == _headers.end())
+
+	if (_headers["Transfer-encoding"] == "chunked") {
+		size_t 	i = req.find("\r\n\r\n") + 4;
+		parse_chunked_body(req.substr(i, req.length()));
+	}
+	else if (_headers.find("Content-length") == _headers.end()
+		&& _headers["Transfer-encoding"] != "chunked") {
 		_body = "";
+	}
 	else
 	{
 		size_t 	i = req.find("\r\n\r\n") + 4;

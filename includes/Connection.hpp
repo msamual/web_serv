@@ -48,7 +48,7 @@ public:
 	int 				getCloseConnectionFlag() const;
 	std::string& 		getRequest();
 	std::string&		getResponse();
-	const t_server&	getConfig();
+	const t_server&		getConfig();
 	std::ofstream*		getChunkedStream();
 //	Request&			getRequestStruct();
 

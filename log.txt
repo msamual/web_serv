@@ -1,2 +1,533 @@
 server object was created
-creating listening socket on 192.168.0.1:8080
+creating listening socket on 127.0.0.1:8080
+add 5 fd to track
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 84
+read = 84
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 10
+read = 10
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/]
+path [/Users/msamual/CLionProjects/YoupiBanane/index.html]
+URI [/]
+waiting...
+event on 6 fd
+send 130 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 107
+read = 107
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 34
+read = 34
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 7
+read = 7
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 4
+read = 4
+event on 6 fd
+send 155 bytes in 6fd.
+close connection on 6 fd.
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 8
+read = 8
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 35
+read = 35
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 16
+read = 16
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 10
+read = 10
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+send 102 bytes in 6fd.
+close connection on 6 fd.
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 75
+read = 75
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 14
+read = 14
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 8
+read = 8
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/youpi.bad_extension]
+URI [/directory]
+waiting...
+event on 6 fd
+send 144 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 31
+read = 31
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 45
+read = 45
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 13
+read = 13
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 34
+read = 34
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/youpi.bad_extension]
+URI [/directory/youpi.bad_extension]
+waiting...
+event on 6 fd
+send 144 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 28
+read = 28
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 53
+read = 53
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 25
+read = 25
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 5
+read = 5
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/youpi.bla]
+URI [/directory/youpi.bla]
+waiting...
+event on 6 fd
+send 134 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 22
+read = 22
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 79
+read = 79
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 6
+read = 6
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/oulalala]
+URI [/directory/oulalala]
+waiting...
+event on 6 fd
+send 137 bytes in 6fd.
+close connection on 6 fd.
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 103
+read = 103
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/nop/youpi.bad_extension]
+URI [/directory/nop]
+waiting...
+event on 6 fd
+send 151 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 95
+read = 95
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 5
+read = 5
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 4
+read = 4
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/nop/youpi.bad_extension]
+URI [/directory/nop/]
+waiting...
+event on 6 fd
+send 151 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 51
+read = 51
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 61
+read = 61
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 7
+read = 7
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/nop/other.pouic]
+URI [/directory/nop/other.pouic]
+waiting...
+event on 6 fd
+send 143 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 5
+read = 5
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 100
+read = 100
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 8
+read = 8
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 4
+read = 4
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/nop/other.pouac]
+URI [/directory/nop/other.pouac]
+waiting...
+event on 6 fd
+send 137 bytes in 6fd.
+close connection on 6 fd.
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 41
+read = 41
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 48
+read = 48
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 11
+read = 11
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 4
+read = 4
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+send 137 bytes in 6fd.
+close connection on 6 fd.
+waiting...
+event on 5 fd
+add 6 fd to track
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 60
+read = 60
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 7
+read = 7
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 46
+read = 46
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 9
+read = 9
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 6
+read = 6
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+fd 6.
+location [/directory]
+path [/Users/msamual/CLionProjects/YoupiBanane/Yeah/not_happy.bad_extension]
+URI [/directory/Yeah/not_happy.bad_extension]
+waiting...
+event on 6 fd
+send 156 bytes in 6fd.
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 34
+read = 34
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 27
+read = 27
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 65
+read = 65
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 9
+read = 9
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 15
+read = 15
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 2
+read = 2
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1012
+read = 1012
+event on 6 fd
+send 3902 bytes in 6fd.
+close connection on 6 fd.
+waiting...
