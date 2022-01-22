@@ -46,7 +46,7 @@ void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
 void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
 
-void 				Connection::setChunkedStream(std::ofstream *chunked_stream) { this->_chunked_stream = chunked_stream }
+void 				Connection::setChunkedStream(std::ofstream *chunked_stream) { this->_chunked_stream = chunked_stream; }
 bool 				Connection::isChunked() { return (this->_chunked_stream != NULL); }
 
 void 				Connection::clear_request() { _request = ""; }
