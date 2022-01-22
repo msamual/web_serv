@@ -123,6 +123,8 @@ Request::setPath(const std::string &path, const std::string &uri) {
 const std::string&
 Request::getPath() const { return _path; }
 
+bool 	Request::isChunked() { return (this->_headers["Transfer-encoding"] == "chunked"); }
+
 void 	Request::parse_request_string(std::string &req)
 {
 	std::string		first_string = req.substr(0, req.find('\r'));

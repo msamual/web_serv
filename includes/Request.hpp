@@ -44,6 +44,8 @@ public:
 	void 										setPath(const std::string &path);
 	void 										setPath(const std::string &root, const std::string &uri);
 
+	bool 										isChunked();
+
 	void 										parse_request_string(std::string& req);
 	void 										parse_headers(std::string& req);
 	void 										parse_body(std::string& req);
