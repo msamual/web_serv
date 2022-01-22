@@ -1,7 +1,7 @@
 NAME	=		webserv
 
 FILES	=		main Parser Server Socket Request utils_socket puterror Connection_storage Connection \
-				set_error_pages open_log handle_requests utils parse_request make_response http_response \
+				set_error_pages open_log handle_requests utils make_response http_response \
 				dir_listing_response cgi CgiClass post
 HEADERS =		Webserv Server ServConfig Socket Request Connection_storage Connection CgiClass
 
