@@ -13,12 +13,14 @@ struct Location{
     std::string cgi;
     std::string upload_dir;
     bool        is_default;
+    int         max_body_size;
     Location(): accepted_methods("GET POST DELETE"),
                 root("./test_site"),
-                auto_index(true),
+                auto_index(false),
                 default_file("index.html"),
                 cgi(""),
-                is_default(true)
+                is_default(true),
+                max_body_size(1000000)
     {};
 };
 
@@ -28,14 +30,14 @@ struct t_server{
     bool                        default_server;
     std::vector<std::string>    names;
     std::map<int, std::string>  error_pages;
-    int                         body_size;
+    int                         max_body_size;
     std::vector<Location>       locations;
     bool                        cgi;
     t_server(){
         host = "localhost";
         port = 8080;
         default_server = false;
-        body_size = 10000000;
+        max_body_size = 10000000;
     };
 };
 

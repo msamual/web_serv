@@ -63,15 +63,15 @@ void 	handle_file(std::ostream& out, Request& request, const Location& location,
 
 void 	handle_dir(std::ostream& out, Request& request, const Location& location, Connection& conn)
 {
-	out << "fd " << conn.getFd() << "." << std::endl;
-	out << "location [" << location.location << "]" << std::endl;
-	out << "path [" << request.getPath() << "]" << std::endl;
-	out << "URI [" << request.getUri() << "]" << std::endl;
+//	out << "fd " << conn.getFd() << "." << std::endl;
+//	out << "location [" << location.location << "]" << std::endl;
+//	out << "path [" << request.getPath() << "]" << std::endl;
+//	out << "URI [" << request.getUri() << "]" << std::endl;
 
-	std::string			index_name = request.getPath() + "/index.html";
+	std::string			index_name = request.getPath() + '/' + location.default_file;
 	if (is_file(index_name.data()))
 	{
-		request.setPath(request.getPath(), "/index.html");
+		request.setPath(index_name);
 		handle_file(out, request, location, conn);
 	}
 	else if (location.auto_index){
@@ -93,11 +93,17 @@ void	handle_GET(std::ostream& out, Request& request, const Location& location, C
 
 void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 {
-	Request				request(conn.getRequest());
+	if (!conn.isChunked() && check_request(conn) == false)
+		return ;
+
+	Request				request(conn.getRequest(), conn.isChunked());
 	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
+	int 				connection_status = READY;
 
-    request.setPath(location.root, request.getUri());
+//	std::cout << "HAVE REQUEST :\n" << conn.getRequest() << std::endl;
+
+    request.setPath(location.root, get_res_path(location.location, request.getUri()));
     if (location.cgi != "") {
         server.set_cgi_connection(&conn);
         cgi_fd = cgi(conn.getConfig(), request, conn); //it is for test
@@ -105,13 +111,21 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
             server.add_to_read_track(cgi_fd);
         return ;
     }
-    else if (location.accepted_methods.find("GET") == std::string::npos) {
-        http_response(405, conn);
+    else if (location.accepted_methods.find(request.getMethod()) == std::string::npos) {
+        http_response(405, conn, request.getMethod());
         return ;
     }
     else if (request.getMethod() == "GET") {
         handle_GET(out, request, location, conn);
     }
+    else if (request.getMethod() == "POST" || request.getMethod() == "PUT"
+    		|| conn.isChunked()) {
+    	handle_POST(out, request, location, conn);
+    }
+    size_t size_body = request.getBody().size();
+    size_t size_req = conn.getRequest().size();
+
+    std::cout << size_body << size_req << std::endl;
     conn.clear_request();
-    conn.setStatus(READY);
+    conn.setStatus(connection_status);
 }

@@ -1,8 +1,8 @@
 NAME	=		webserv
 
 FILES	=		main Parser Server Socket Request utils_socket puterror Connection_storage Connection \
-				set_error_pages open_log handle_requests utils parse_request make_response http_response \
-				dir_listing_response cgi CgiClass
+				set_error_pages open_log handle_requests utils make_response http_response \
+				dir_listing_response cgi CgiClass post
 HEADERS =		Webserv Server ServConfig Socket Request Connection_storage Connection CgiClass
 
 CXX		=		clang++
@@ -11,7 +11,7 @@ SRC_DIR	=		srcs/
 OBJ_DIR	=		objs/
 INCLUDE_DIR =	includes/
 
-FLAGS	= -Wall -Wextra -Werror   -I $(INCLUDE_DIR) -g
+FLAGS	= -Wall -Wextra -Werror -I $(INCLUDE_DIR) -g
 
 SRCS 	= $(patsubst %, $(SRC_DIR)%.cpp, $(FILES))
 HDRS	= $(patsubst %, $(INCLUDE_DIR)%.hpp, $(HEADERS))

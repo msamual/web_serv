@@ -11,6 +11,14 @@ std::string 	get_status_msg(int n)
 	return "OK";
 }
 
+void 	make_response_put(int status, Connection& conn)
+{
+	std::string		response("HTTP/1.1 " + status_to_text(status) + "\r\n");
+	response += "Host: " + conn.getHost() + ":" + itos(conn.getPort()) + "\r\n\r\n";
+	conn.setResponse(response);
+	conn.setStatus(READY);
+}
+
 void	make_response_get(int status, std::istream& file, Connection& conn, const Request& request)
 {
 	std::string		response("HTTP/1.1 " + status_to_text(status) + "\r\n");
@@ -23,9 +31,9 @@ void	make_response_get(int status, std::istream& file, Connection& conn, const R
 
 	response += "Host: " + conn.getHost() + ":" + itos(conn.getPort()) + "\r\n";
 	response += "Content-type: " + content_type + "\r\n";
-	response += "Content-length: " + itos(content.length() + 1) + "\r\n\r\n";
+	response += "Content-length: " + itos(content.length() + 4) + "\r\n\r\n";
 	response += content + "\r\n\r\n";
-//	res1ponse += (char)EOF;
+	//response += (char)EOF;
 
 	conn.setResponse(response);
 }

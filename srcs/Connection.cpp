@@ -6,7 +6,7 @@
 
 Connection::Connection(int fd, std::string host, int port, std::ostream* log, const t_server& config)
 	: _fd(fd), _host(host), _port(port), _status(INCOMPLETE), _config(config),
-	_close_connection_flag(DONT_CLOSE), _log(log)
+	_close_connection_flag(DONT_CLOSE), _log(log), _chunked_stream(NULL)
 {
 	struct sockaddr	addr;
 	socklen_t		len = sizeof(sockaddr);
@@ -19,6 +19,9 @@ Connection::Connection(int fd, std::string host, int port, std::ostream* log, co
 Connection::~Connection()
 {
 	close(_fd);
+	if (this->_chunked_stream != NULL){
+		delete this->_chunked_stream;
+	}
 	*_log << "close connection on " << _fd << " fd." << std::endl;
 }
 
@@ -37,10 +40,15 @@ std::string			Connection::get_error(int error)
 		return it->second;
 	return "<html><head>" + status_to_text(error) + "</head></html>\n";
 }
+std::ofstream*		Connection::getChunkedStream() { return this->_chunked_stream; }
 
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
 void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
+
+void 				Connection::setChunkedStream(std::ofstream *chunked_stream) { this->_chunked_stream = chunked_stream; }
+bool 				Connection::isChunked() { return (this->_chunked_stream != NULL); }
+
 void 				Connection::clear_request() { _request = ""; }
 
 void 				Connection::read_request(const struct kevent& event)
@@ -64,7 +72,7 @@ void 				Connection::read_request(const struct kevent& event)
 	}
 	buf[ret] = 0;
 	_request.append(buf);
-	check_request();
+	_status = is_complete_request(_request);
 }
 
 void 			Connection::send_response()
@@ -76,43 +84,11 @@ void 			Connection::send_response()
 	ret = send(_fd, _response.data(), _response.size(), 0);
 	if (ret < 0)
 		std::cerr << "send() failed to " << _fd << " fd." << std::endl;
-//	if (ret == 0)
-//		_close_connection_flag = SHOULD_BE_CLOSED;
+	if (ret == 0)
+		_close_connection_flag = SHOULD_BE_CLOSED;
 	*_log << "send " << ret << " bytes in " << _fd << "fd." << std::endl;
 	_response = "";
 	_status = INCOMPLETE;
 	if (_close_connection_flag & AFTER_SEND)
 		_close_connection_flag = SHOULD_BE_CLOSED;
-}
-
-void 			Connection::check_request()
-{
-	if (_request == "\r\n")
-	{
-		_request = "";
-		return ;
-	}
-	if (_status == INCOMPLETE)
-	{
-		std::stringstream	ss(_request);
-		std::string			met, rou, ver, host, value;
-		ss >> met >> rou >> ver >> host >> value;
-		if  (met.find_first_not_of("ABCDEFGHIGKLMNOPQRSTUVWXYZ") != std::string::npos
-            || !is_address(rou))
-		{
-			http_response(400, *this);
-            return ;
-		}
-        if (ver != "HTTP/1.1")
-        {
-			http_response(405, *this);
-            return ;
-        }
-        if (find_new_line(_request) > 1 && (host != "Host:" || value.length() == 0))
-        {
-			http_response(400, *this);
-			return;
-        }
-		_status = is_complete_request(_request);
-	}
 }

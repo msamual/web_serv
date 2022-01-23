@@ -81,9 +81,16 @@ int							 	is_complete_request(const std::string& request);
 const Request&				 	parse_request(Connection& connection);
 void							make_response_get(int status, std::istream& file, Connection& conn, const Request& request);
 void 							http_response(int status, Connection &connection);
+void 							http_response(int status, Connection &connection, std::string method);
 void							dir_listing_response(const std::string &path, const std::string& root, Connection &connection);
 std::string						status_to_text(int status);
 std::string						itos(int num);
 bool 							is_address(const std::string& str);
+void 							handle_POST(std::ostream& out, Request& request, const Location& location, Connection& conn);
+bool							check_request(Connection& conn);
+std::string					 	get_res_path(const std::string& location, const std::string& uri);
+bool 							is_file(const char *file);
+void						 	make_response_put(int status, Connection& conn);
+
 
 #endif
