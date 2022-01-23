@@ -13,9 +13,16 @@ CgiClass::make_env(){
     this->vector_env = new std::vector<std::string>;
     
     vector_env->push_back("AUTH_TYPE=");
-    int content_length = this->request.getBody().size();
+	//If the client request required authentication for external access, then the server MUST set the value of this variable
+	//from the ‘auth-scheme’ token in the request Authorization HTTP header field. Otherwise the variable is set to
+	//NULL
 
+    int content_length = this->request.getBody().size();
     vector_env->push_back("CONTENT_LENGTH=" + itos(content_length));
+//	The server MUST set this meta-variable if the request is accompanied by a message-body entity.
+//	The CONTENT_LENGTH value must reflect the length of the message-body after the server has removed
+//	any transfercodings or content-codings.
+
 	std::string content_type;
 	try {
 		content_type = this->request.getHeaders().at("Content-type");
@@ -24,23 +31,22 @@ CgiClass::make_env(){
 		content_type = "";
 	}
 
-    vector_env->push_back("CONTENT_TYPE=" + content_type);
+	vector_env->push_back("CONTENT_TYPE=" + content_type);
     vector_env->push_back("GATEWAY_INTERFACE=CGI/1.1");
-    vector_env->push_back("PATH_INFO=" + this->path_info);
+    vector_env->push_back("PATH_INFO=" + this->request.getUri());//BULLSHIT for teting purpose
     vector_env->push_back("PATH_TRANSLATED=");
     vector_env->push_back("QUERY_STRING=" + this->request.getParams());
     vector_env->push_back("REMOTE_ADDR=" + this->connection.getHost());
     vector_env->push_back("REMOTE_HOST=");//SHOULD set domain name of client if available
     //vector_env->push_back("REMOTE_IDENT=" + this->connection.getHost());//MAY be used to provide identity information
     //vector_env->push_back("REMOTE_USER=" + this->connection.getHost());//MUST set if AUTH_TYPE is set to Basic or Digest
-    std::string host = (this->request.getHeaders()).at("Host");
-    if (host == ""){
-        host = (this->request.getHeaders()).at("Host");
-    }
     vector_env->push_back("REQUEST_METHOD=" + this->request.getMethod());
     vector_env->push_back("SCRIPT_NAME=" + this->request.getPath());//may NEED another format of path
-    vector_env->push_back(("SERVER_NAME=" + host));
-    vector_env->push_back(("SERVER_PORT=8080"));//BULLSHIT
+    vector_env->push_back(("SERVER_NAME=" + this->connection.getHost()));
+
+	std::string port = itos(this->connection.getPort());
+	vector_env->push_back(("SERVER_PORT=" + port));
+
     vector_env->push_back(("SERVER_PROTOCOL=HTTP/1.1"));
 
     std::string *tmp;
