@@ -119,8 +119,12 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
     }
     else if (location.cgi != "" || conn.getCgiLocation() != NULL) {
         server.set_cgi_connection(&conn);
-//        cgi_fd = cgi(conn.getConfig(), request, conn, location); //it is for test
-        cgi_fd = handle_post_cgi(out, request, location, conn); //it is for test
+		if (request.getMethod() == "GET") {
+			cgi_fd = cgi(conn.getConfig(), request, conn, location); //it is for test
+		}
+		else {
+			cgi_fd = handle_post_cgi(out, request, location, conn); //it is for test
+		}
         if (cgi_fd > 0)
             server.add_to_read_track(cgi_fd);
         return ;

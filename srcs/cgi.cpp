@@ -3,7 +3,8 @@
 int
 cgi(const t_server &server, Request &request, Connection &connection, const Location &location)
 {
-	std::string	cgi_path = request.getPath();
+	std::string	cgi_uri = request.getUri();
+	std::string	cgi_path = request.getPath() + cgi_uri;
 
     if (!is_file(cgi_path.c_str())){
     	cgi_path = location.root + '/' + location.default_file;

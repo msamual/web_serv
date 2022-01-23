@@ -73,10 +73,11 @@ int	handle_post_cgi(std::ostream& out, Request& request, const Location& locatio
 {
 	std::string 	temp_file(".chunked.tmp");
 	std::ofstream 	*file_stream;
-	std::string 	body = request.getBody();
+	std::string 	body;
 
 	if (conn.isChunked()){
 		//add request body to connection chunked_stream
+		body = conn.getCgiRequest()->getBody();
 		file_stream = conn.getChunkedStream();
 		if (body.empty()){
 			file_stream->close();
