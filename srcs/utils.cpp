@@ -101,5 +101,5 @@ std::string 	get_res_path(const std::string& location, const std::string& uri)
 
 	while (location[i] && location[i] == uri[i])
 		++i;
-	return uri.substr(i, uri.length() - 1);
+	return uri.substr(i, uri.length());
 }

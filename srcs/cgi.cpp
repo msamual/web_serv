@@ -6,7 +6,7 @@ cgi(const t_server &server, Request &request, Connection &connection, const Loca
 	std::string	cgi_path = request.getPath();
 
     if (!is_file(cgi_path.c_str())){
-    	cgi_path = location.root + location.default_file;
+    	cgi_path = location.root + '/' + location.default_file;
 		if (!is_file(cgi_path.c_str())) {
 			http_response(404, connection);
 			return (-1);

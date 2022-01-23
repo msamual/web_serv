@@ -14,8 +14,16 @@ CgiClass::make_env(){
     
     vector_env->push_back("AUTH_TYPE=");
     int content_length = this->request.getBody().size();
+
     vector_env->push_back("CONTENT_LENGTH=" + itos(content_length));
-    std::string content_type = this->request.getHeaders().at("Content-type");
+	std::string content_type;
+	try {
+		content_type = this->request.getHeaders().at("Content-type");
+	}
+	catch (std::exception &e) {
+		content_type = "";
+	}
+
     vector_env->push_back("CONTENT_TYPE=" + content_type);
     vector_env->push_back("GATEWAY_INTERFACE=CGI/1.1");
     vector_env->push_back("PATH_INFO=" + this->path_info);
@@ -138,9 +146,9 @@ CgiClass::CgiClass(const t_server &server, Request &request, Connection &connect
 {}
 
 CgiClass::~CgiClass(){
-    free(this->env);
-    free(this->argv);
-    delete vector_env;
-    delete vector_argv;
+//    free(this->env);
+//    free(this->argv);
+//    delete vector_env;
+//    delete vector_argv;
     return ;
 }
