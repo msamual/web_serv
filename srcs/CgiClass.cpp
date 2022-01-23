@@ -13,8 +13,10 @@ CgiClass::make_env(){
     this->vector_env = new std::vector<std::string>;
     
     vector_env->push_back("AUTH_TYPE=");
-    vector_env->push_back("CONTENT_LENGTH=");
-    vector_env->push_back("CONTENT_TYPE=");
+    int content_length = this->request.getBody().size();
+    vector_env->push_back("CONTENT_LENGTH=" + itos(content_length));
+    std::string content_type = this->request.getHeaders().at("Content-type");
+    vector_env->push_back("CONTENT_TYPE=" + content_type);
     vector_env->push_back("GATEWAY_INTERFACE=CGI/1.1");
     vector_env->push_back("PATH_INFO=" + this->path_info);
     vector_env->push_back("PATH_TRANSLATED=");
@@ -28,7 +30,7 @@ CgiClass::make_env(){
         host = (this->request.getHeaders()).at("Host");
     }
     vector_env->push_back("REQUEST_METHOD=" + this->request.getMethod());
-    vector_env->push_back("SCRIPT_NAME=" + this->path);//may NEED another format of path
+    vector_env->push_back("SCRIPT_NAME=" + this->request.getPath());//may NEED another format of path
     vector_env->push_back(("SERVER_NAME=" + host));
     vector_env->push_back(("SERVER_PORT=8080"));//BULLSHIT
     vector_env->push_back(("SERVER_PROTOCOL=HTTP/1.1"));
