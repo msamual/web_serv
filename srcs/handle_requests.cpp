@@ -106,7 +106,7 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
     request.setPath(location.root, get_res_path(location.location, request.getUri()));
     if (location.cgi != "") {
         server.set_cgi_connection(&conn);
-        cgi_fd = cgi(conn.getConfig(), request, conn); //it is for test
+        cgi_fd = cgi(conn.getConfig(), request, conn, location); //it is for test
         if (cgi_fd > 0)
             server.add_to_read_track(cgi_fd);
         return ;

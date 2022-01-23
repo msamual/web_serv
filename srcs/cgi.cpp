@@ -1,13 +1,18 @@
 #include "CgiClass.hpp"
 
 int
-cgi(const t_server &server, Request &request, Connection &connection)
+cgi(const t_server &server, Request &request, Connection &connection, const Location &location)
 {
-//    if (!is_file(request.getPath().c_str())){
-//        http_response(404, connection);
-//		return (-1);
-//    }
-	CgiClass test(server, request, connection);
+	std::string	cgi_path = request.getPath();
+
+    if (!is_file(cgi_path.c_str())){
+    	cgi_path = location.root + location.default_file;
+		if (!is_file(cgi_path.c_str())) {
+			http_response(404, connection);
+			return (-1);
+		}
+    }
+	CgiClass test(server, request, connection, cgi_path);
 	try {
 		test.start();
 	}

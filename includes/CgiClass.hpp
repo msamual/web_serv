@@ -9,6 +9,7 @@ struct CgiClass{
     Connection      &connection;
     std::string		path;
     std::string 	path_info;
+    std::string 	cgi_path;
     char     		**env;
     char     		**argv;
     std::vector<std::string>    *vector_env;
@@ -19,7 +20,7 @@ struct CgiClass{
     void            tokenize(const std::string &params);
     Request 		&path_validation(Request &request);
     void 			start();
-	CgiClass(const t_server &server, Request &request, Connection &connection);
+	CgiClass(const t_server &server, Request &request, Connection &connection, std::string cgi_path);
 	~CgiClass();
 };
 

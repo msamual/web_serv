@@ -74,7 +74,7 @@ void							set_error_pages(t_server &config, std::vector<std::string> &tokens);
 void							set_default_errors(std::map<int, std::string> &ret);
 std::ostream* 					open_log_file(int ac, char **av);
 bool							is_file(const char *file);
-int								cgi(const t_server &server, Request &request, Connection &connection);
+int								cgi(const t_server &server, Request &request, Connection &connection, const Location &location);
 void                            handle_requests(Connection& conn, std::ostream& out, Server& server);
 int								find_new_line(const std::string& str);
 int							 	is_complete_request(const std::string& request);

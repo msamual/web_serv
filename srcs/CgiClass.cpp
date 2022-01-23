@@ -90,7 +90,7 @@ CgiClass::make_argv(){
 
 Request & CgiClass::path_validation(Request &request)
 {
-	this->path = request.getPath();
+	this->path = this->cgi_path;//временное решение
 	this->path_info = "";
 
 	std::string	token;
@@ -128,10 +128,11 @@ void	CgiClass::start() {
 	return ;
 }
 
-CgiClass::CgiClass(const t_server &server, Request &request, Connection &connection):
+CgiClass::CgiClass(const t_server &server, Request &request, Connection &connection, std::string cgi_path):
                                     request(request),
                                     server(server),
-                                    connection(connection)
+                                    connection(connection),
+                                    cgi_path(cgi_path)
 {}
 
 CgiClass::~CgiClass(){
