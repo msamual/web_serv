@@ -6,24 +6,34 @@
 
 class Server;
 
-const Location&		find_location(const std::string& uri, const std::vector<Location>& locations)
+const Location&		find_location(const std::string& uri, const std::vector<Location>& locations,
+									 const std::string& method, bool *isFinded)
 {
 	size_t 		max_match = 0;
 	size_t 		max_index = 0;
 
 	for (size_t i = 0; i < locations.size(); ++i)
 	{
-		size_t count = 0;
-		while (uri[count] && uri[count] == locations[i].location[count])
-			++count;
-		if (count == uri.length() && count == locations[i].location.length())
+		const std::string& location = locations[i].location;
+
+		if (locations[i].accepted_methods.find(method) == std::string::npos)
+			continue;
+		if (location[0] == '.' && uri.size() > location.size() &&
+			uri.substr(uri.size() - location.size(), uri.length()) == location)
 			return locations[i];
-		if (count > max_match && (uri[count - 1] == '/' || locations[i].location.length() == count))
+		size_t count = 0;
+		while (uri[count] && uri[count] == location[count])
+			++count;
+		if (count == uri.length() && count == location.length())
+			return locations[i];
+		if (count > max_match && (location.length() == count
+			|| (uri[count - 1] == '/' && count > 1)))
 		{
 			max_match = count;
 			max_index = i;
 		}
 	}
+	*isFinded = max_match > 0;
 	return locations[max_index];
 }
 
@@ -97,22 +107,21 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
 		return ;
 
 	Request				request(conn.getRequest(), conn.isChunked());
-	const Location		&location = find_location(request.getUri(), conn.getConfig().locations);
 	int 				cgi_fd = -1;
 	int 				connection_status = READY;
-
-//	std::cout << "HAVE REQUEST :\n" << conn.getRequest() << std::endl;
+	bool 				is_method_finded = true;
+	const Location		&location = find_location(request.getUri(), conn.getConfig().locations, request.getMethod(), &is_method_finded);
 
     request.setPath(location.root, get_res_path(location.location, request.getUri()));
-    if (location.cgi != "") {
+    if (is_method_finded == false && !conn.isChunked()) {
+    	http_response(405, conn, request.getMethod());
+    	return ;
+    }
+    else if (location.cgi != "") {
         server.set_cgi_connection(&conn);
         cgi_fd = cgi(conn.getConfig(), request, conn, location); //it is for test
         if (cgi_fd > 0)
             server.add_to_read_track(cgi_fd);
-        return ;
-    }
-    else if (location.accepted_methods.find(request.getMethod()) == std::string::npos) {
-        http_response(405, conn, request.getMethod());
         return ;
     }
     else if (request.getMethod() == "GET") {
@@ -122,10 +131,6 @@ void    handle_requests(Connection& conn, std::ostream& out, Server& server)
     		|| conn.isChunked()) {
     	handle_POST(out, request, location, conn);
     }
-    size_t size_body = request.getBody().size();
-    size_t size_req = conn.getRequest().size();
-
-    std::cout << size_body << size_req << std::endl;
     conn.clear_request();
     conn.setStatus(connection_status);
 }
