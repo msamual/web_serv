@@ -3,10 +3,13 @@
 //
 
 #include "../includes/Connection.hpp"
+#include "../includes/Request.hpp"
+#include "../includes/ServConfig.hpp"
 
 Connection::Connection(int fd, std::string host, int port, std::ostream* log, const t_server& config)
 	: _fd(fd), _host(host), _port(port), _status(INCOMPLETE), _config(config),
-	_close_connection_flag(DONT_CLOSE), _log(log), _chunked_stream(NULL)
+	_close_connection_flag(DONT_CLOSE), _log(log), _chunked_stream(NULL),
+	_cgiRequest(NULL), _cgiLocation(NULL)
 {
 	struct sockaddr	addr;
 	socklen_t		len = sizeof(sockaddr);
@@ -41,12 +44,16 @@ std::string			Connection::get_error(int error)
 	return "<html><head>" + status_to_text(error) + "</head></html>\n";
 }
 std::ofstream*		Connection::getChunkedStream() { return this->_chunked_stream; }
+const Location		*Connection::getCgiLocation() {return this->_cgiLocation;}
+Request				*Connection::getCgiRequest() {return this->_cgiRequest;}
 
 void 				Connection::setStatus(int status) { _status = status; }
 void                Connection::setResponse(const std::string &res) { _response = res; }
 void				Connection::setCloseConnectionFlag(int flag) { _close_connection_flag = flag; }
 
 void 				Connection::setChunkedStream(std::ofstream *chunked_stream) { this->_chunked_stream = chunked_stream; }
+void 				Connection::setCgiLocation(const Location& location) {this->_cgiLocation = &location;}
+void 				Connection::setCgiRequest(Request &request) {this->_cgiRequest = &request;}
 bool 				Connection::isChunked() { return (this->_chunked_stream != NULL); }
 
 void 				Connection::clear_request() { _request = ""; }
@@ -72,7 +79,7 @@ void 				Connection::read_request(const struct kevent& event)
 	}
 	buf[ret] = 0;
 	_request.append(buf);
-	_status = is_complete_request(_request);
+	_status = (_chunked_stream == NULL) ? is_complete_request(_request) : COMPLETE;
 }
 
 void 			Connection::send_response()

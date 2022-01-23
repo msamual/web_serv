@@ -18,6 +18,9 @@
 
 #include "Webserv.hpp"
 
+class Request;
+struct Location;
+
 class Connection
 {
 private:
@@ -31,6 +34,8 @@ private:
 	int 						_close_connection_flag;
 	std::ostream 				*_log;
 	std::ofstream				*_chunked_stream;
+	Request*					_cgiRequest;
+	const Location*				_cgiLocation;
 
 	Connection();
 	Connection(const Connection& conn);
@@ -51,12 +56,16 @@ public:
 	const t_server&		getConfig();
 	std::ofstream*		getChunkedStream();
 //	Request&			getRequestStruct();
+	Request*			getCgiRequest();
+	const Location*		getCgiLocation();
 
 	void 				setStatus(int status);
 	void                setResponse(const std::string& res);
 //	void 				setRequestStruct(const Request& req);
 	void				setCloseConnectionFlag(int flag);
 	void 				setChunkedStream(std::ofstream *chunked_stream);
+	void 				setCgiRequest(Request &);
+	void 				setCgiLocation(const Location &);
 
 	void 				clear_request();
 	bool 				isChunked();
