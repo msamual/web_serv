@@ -29,8 +29,13 @@ read = 107
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 40
-read = 40
+size = 34
+read = 34
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 6
+read = 6
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -97,13 +102,23 @@ read = 75
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 22
-read = 22
+size = 14
+read = 14
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 6
-read = 6
+size = 8
+read = 8
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 3
+read = 3
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -156,8 +171,13 @@ read = 28
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 78
-read = 78
+size = 53
+read = 53
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 25
+read = 25
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -271,13 +291,8 @@ read = 95
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 5
-read = 5
-waiting...
-event on 6 fd
-read from 6 fd.
-size = 4
-read = 4
+size = 9
+read = 9
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -470,8 +485,13 @@ read = 27
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 66
-read = 66
+size = 65
+read = 65
+waiting...
+event on 6 fd
+read from 6 fd.
+size = 1
+read = 1
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -495,20 +515,15 @@ read = 1
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 1
-read = 1
-waiting...
-event on 6 fd
-read from 6 fd.
-size = 1
-read = 1
+size = 2
+read = 2
 waiting...
 event on 6 fd
 read from 6 fd.
 size = 1012
 read = 1012
 event on 6 fd
-send 46 bytes in 6fd.
+send 41 bytes in 6fd.
 waiting...
 event on 6 fd
 send 0 bytes in 6fd.
@@ -529,30 +544,30 @@ read = 84
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 42
-read = 42
+size = 54
+read = 54
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 23
-read = 23
+size = 12
+read = 12
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 2
-read = 2
+size = 1
+read = 1
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 408097
-read = 408097
+size = 408096
+read = 408096
 event on 6 fd
 send 41 bytes in 6fd.
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 651780
-read = 651780
+size = 651781
+read = 651781
 waiting...
 event on 6 fd
 read from 6 fd.
@@ -643,13 +658,8 @@ read = 80
 waiting...
 event on 6 fd
 read from 6 fd.
-size = 1
-read = 1
-waiting...
-event on 6 fd
-read from 6 fd.
-size = 9
-read = 9
+size = 10
+read = 10
 waiting...
 event on 6 fd
 read from 6 fd.
